@@ -95,7 +95,27 @@ public class SongDAO_DB implements ISongDataAccess {
     }
 
     @Override
-    public void deleteSong(Song song) {
+    public void deleteSong(Song song) throws Exception {
+
+        try (Connection conn = dbConnector.getConnection()) {
+
+            String sql = "DELETE FROM Song WHERE Title = (?) AND Artist = (?);";
+
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            // Bind parameters
+            stmt.setString(1, song.getTitle());
+            stmt.setString(2, song.getArtist());
+
+
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception( ex);
+        }
+
 
     }
 }

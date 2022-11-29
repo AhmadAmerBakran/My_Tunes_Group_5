@@ -38,8 +38,9 @@ public class SongCrud extends SongViewController implements Initializable {
         Stage stage = new Stage();
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
-        txtFile.setText(file.toString());
-        System.out.println(txtFile.getText());
+        if(file != null) {
+            txtFile.setText(file.toString());
+        }
     }
 
     public void save(ActionEvent actionEvent) {

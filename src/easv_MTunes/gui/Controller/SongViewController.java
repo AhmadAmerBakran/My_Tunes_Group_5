@@ -331,4 +331,9 @@ public class SongViewController extends ControllerManager implements Initializab
         song = songTable.getSelectionModel().getSelectedItem();
         return song;
     }
+
+    public void deleteSong(ActionEvent actionEvent) throws Exception {
+
+        songModel.deleteSong(getSelectedSong());
+    }
 }

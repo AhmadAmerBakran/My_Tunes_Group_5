@@ -22,4 +22,7 @@ public class SongManager {
     public Song createNewSong(String title, String artist, File songFile) throws Exception {
         return songDAO.createSong(title, artist, songFile);
     }
+    public void deleteSong(Song song) throws Exception {
+        songDAO.deleteSong(song);
+    }
 }
