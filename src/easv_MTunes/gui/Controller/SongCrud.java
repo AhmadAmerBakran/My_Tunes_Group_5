@@ -45,7 +45,7 @@ public class SongCrud extends ControllerManager{
         FileChooser fc = new FileChooser();
         file = fc.showOpenDialog(stage);
         if(file != null) {
-            txtFile.setText(targetString + "/" + file.getName());
+            txtFile.setText(file.toURI().toString());
         }
     }
 
@@ -58,7 +58,7 @@ public class SongCrud extends ControllerManager{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        file = new File(txtFile.getText());
+        file = new File(targetString + "/" + file.getName());
 
 
         try {
