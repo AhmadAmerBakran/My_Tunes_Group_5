@@ -108,12 +108,6 @@ public class SongDAO_DB implements ISongDataAccess {
             ex.printStackTrace();
             throw new Exception("Could not update movie", ex);
         }
-
-
-        // UPDATE Movie SET Title = 'Terminator 1', Year = 1990
-        //WHERE Id = 1
-
-
     }
 
     @Override
