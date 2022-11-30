@@ -11,7 +11,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -20,6 +24,10 @@ public class SongCrud extends ControllerManager{
     @FXML
     private TextField txtCategory, txtTime, txtArtist, txtFile, txtTitle;
 
+    private File file;
+
+    private String targetString = "SongFiles";
+    private Path target = Paths.get(targetString);
 
     private SongModel model;
     public SongCrud() {
@@ -35,16 +43,23 @@ public class SongCrud extends ControllerManager{
     public void chooseFile(ActionEvent actionEvent) {
         Stage stage = new Stage();
         FileChooser fc = new FileChooser();
-        File file = fc.showOpenDialog(stage);
+        file = fc.showOpenDialog(stage);
         if(file != null) {
-            txtFile.setText(file.toString());
+            txtFile.setText(targetString + "/" + file.getName());
         }
     }
 
     public void save(ActionEvent actionEvent) {
         String title = txtTitle.getText();
         String artist = txtArtist.getText();
-        File file = new File(txtFile.getText());
+        //Copy the song to the SongFiles in the project
+        try {
+            Files.copy(file.toPath(), target.resolve(file.toPath().getFileName()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file = new File(txtFile.getText());
+
 
         try {
             model.createNewSong(title, artist, file);
