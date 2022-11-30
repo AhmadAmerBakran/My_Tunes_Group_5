@@ -90,7 +90,29 @@ public class SongDAO_DB implements ISongDataAccess {
     }
 
     @Override
-    public void updateSong(Song song) {
+    public void updateSong(Song song) throws Exception {
+        try (Connection connection = dbConnector.getConnection()) {
+
+            String sql = "UPDATE Song SET Title = ?, Artist = ? WHERE Id = ?";
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            // Bind parameters
+            stmt.setString(1, song.getTitle());
+            stmt.setString(2, song.getArtist());
+            stmt.setInt(3, song.getId());
+
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not update movie", ex);
+        }
+
+
+        // UPDATE Movie SET Title = 'Terminator 1', Year = 1990
+        //WHERE Id = 1
+
 
     }
 

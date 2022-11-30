@@ -1,5 +1,7 @@
 package easv_MTunes;
 
+import easv_MTunes.gui.Controller.SongViewController;
+import easv_MTunes.gui.Model.MTModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -19,6 +21,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/easv_MTunes/gui/View/MyTunesView.fxml"));
         Parent root = loader.load();
+        SongViewController controller = loader.getController();
+        controller.setModel(new MTModel());
+        controller.setup();
+
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("My Tunes");
         primaryStage.show();

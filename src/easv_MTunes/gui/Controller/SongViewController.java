@@ -9,14 +9,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -59,7 +62,6 @@ public class SongViewController extends ControllerManager implements Initializab
 
     private Media media;
     private MediaPlayer mediaPlayer;
-    private File selectedSong;
     private int songNumber;
     private Timer timer;
     private TimerTask task;
@@ -83,23 +85,26 @@ public class SongViewController extends ControllerManager implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        songTable.setItems(songModel.getObservableSongs());
-        cTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
-        cArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
+        //showAllSongs();
         volumeSlider();
         timeSlider();
 
     }
+    @Override
+    public void setup() {
+        songModel = getModel().getSongModel();
+        showAllSongs();
 
+    }
     public void play(ActionEvent actionEvent) {
-        if(playClicked == true)
+        if(playClicked)
         {
             Image playing = new Image("/easv_MTunes/images/pause_button_96px.png");
             imgPlay.setImage(playing);
             playFunctions();
             mediaPlayer.play();
             playClicked = false;
-        } else if (playClicked == false) {
+        } else if (!playClicked) {
             Image pausing = new Image("/easv_MTunes/images/play_96px.png");
             imgPlay.setImage(pausing);
             mediaPlayer.pause();
@@ -107,6 +112,12 @@ public class SongViewController extends ControllerManager implements Initializab
 
         }
 
+    }
+    public void showAllSongs()
+    {
+        songTable.setItems(songModel.getObservableSongs());
+        cTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
+        cArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
     }
 
 
@@ -282,7 +293,7 @@ public class SongViewController extends ControllerManager implements Initializab
     }
 
     public void muteVolume(ActionEvent actionEvent) {
-        if(muteClicked == true)
+        if(muteClicked)
         {
             mediaPlayer.setVolume(0);
             Image mute = new Image("/easv_MTunes/images/mute_96px.png");
@@ -290,7 +301,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
             muteClicked = false;
 
-        } else if (muteClicked == false) {
+        } else if (!muteClicked) {
             mediaPlayer.setVolume(slideVolume.getValue() * 0.01);
             Image unMuted = new Image("/easv_MTunes/images/voice_96px.png");
             soundOn.setImage(unMuted);
@@ -299,16 +310,30 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-    public void updateSong(ActionEvent actionEvent) {
+    public void editSong(ActionEvent actionEvent) throws IOException {
+        Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+        songModel.setSelectedSong(selectedSong);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
 
-        try {
+        SongCrud songCrud = loader.getController();
+        songCrud.setModel(super.getModel());
+        songCrud.setup();
 
-            editAndAddWindow();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("Edit Song");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+
+        dialogWindow.showAndWait();
+
+
     }
-    public void editAndAddWindow() throws IOException {
+    /*public void editAndAddWindow() throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
         Parent root = loader.load();
@@ -316,14 +341,28 @@ public class SongViewController extends ControllerManager implements Initializab
         stage.setTitle("EditAdd");
         stage.show();
         stage.setResizable(false);
-    }
+    }*/
 
-    public void addSong(ActionEvent actionEvent) {
-        try {
-            editAndAddWindow();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void addSong(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        SongCrud songCrud = loader.getController();
+        songCrud.setModel(super.getModel());
+        showAllSongs();
+        //songCrud.setup();
+
+
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("Add Song");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+
+        dialogWindow.showAndWait();
+
     }
     public Song getSelectedSong()
     {
@@ -336,4 +375,6 @@ public class SongViewController extends ControllerManager implements Initializab
 
         songModel.deleteSong(getSelectedSong());
     }
+
+
 }

@@ -11,7 +11,7 @@ public interface ISongDataAccess {
 
     public Song createSong(String title, String artist, File songFile) throws Exception;
 
-    public void updateSong(Song song);
+    public void updateSong(Song song) throws Exception;
 
     public void deleteSong(Song song) throws Exception;
 }

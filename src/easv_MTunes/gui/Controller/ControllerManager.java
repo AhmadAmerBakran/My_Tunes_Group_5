@@ -1,14 +1,17 @@
 package easv_MTunes.gui.Controller;
 
-public class ControllerManager {
-    private SongViewController songViewController;
-    private SongCrud songCrud;
+import easv_MTunes.gui.Model.MTModel;
 
-    public SongViewController getSongViewController() {
-        return songViewController;
+public abstract class ControllerManager {
+    private MTModel model;
+
+    public MTModel getModel() {
+        return model;
     }
 
-    public SongCrud getSongCrud() {
-        return songCrud;
+    public void setModel(MTModel model) {
+        this.model = model;
     }
+
+    public abstract void setup();
 }

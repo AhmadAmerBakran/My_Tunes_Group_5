@@ -40,6 +40,7 @@
       <TextField fx:id="txtFile" layoutX="187.0" layoutY="241.0" prefHeight="30.0" prefWidth="280.0" promptText="Choose a song to be added..." style="-fx-background-radius: 20;" />
       <Button layoutX="482.0" layoutY="244.0" mnemonicParsing="false" onAction="#chooseFile" style="-fx-background-radius: 20;" text="Choose.." />
       <Button layoutX="520.0" layoutY="286.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="61.0" style="-fx-background-radius: 20;" text="Save" />
-      <Button layoutX="451.0" layoutY="286.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="61.0" style="-fx-background-radius: 20;" text="Cancel" />
+      <Button layoutX="384.0" layoutY="286.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="61.0" style="-fx-background-radius: 20;" text="Cancel" />
+      <Button layoutX="452.0" layoutY="286.0" mnemonicParsing="false" onAction="#updateSong" prefHeight="25.0" prefWidth="61.0" style="-fx-background-radius: 20;" text="Update" />
    </children>
 </AnchorPane>

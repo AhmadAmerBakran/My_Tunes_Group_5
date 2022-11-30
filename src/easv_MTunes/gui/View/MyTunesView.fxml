@@ -321,7 +321,7 @@
             <Bloom />
          </effect>
       </Label>
-      <Button layoutX="774.0" layoutY="540.0" mnemonicParsing="false" onAction="#updateSong" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="774.0" layoutY="540.0" mnemonicParsing="false" onAction="#editSong" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

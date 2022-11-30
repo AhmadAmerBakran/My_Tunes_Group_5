@@ -25,4 +25,8 @@ public class SongManager {
     public void deleteSong(Song song) throws Exception {
         songDAO.deleteSong(song);
     }
+
+    public void updateMovie(Song updatedSong) throws Exception {
+        songDAO.updateSong(updatedSong);
+    }
 }

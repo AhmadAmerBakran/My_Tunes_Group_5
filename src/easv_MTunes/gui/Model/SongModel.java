@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class SongModel {
     private ObservableList<Song> songsToBeViewed;
     private SongManager songManager;
+    private Song selectedSong;
 
     public SongModel() throws SQLException {
         songManager = new SongManager();
@@ -25,10 +26,27 @@ public class SongModel {
     public void createNewSong(String title, String artist, File songFile) throws Exception {
         Song song = songManager.createNewSong(title, artist, songFile);
         songsToBeViewed.add(song);
+
     }
 
     public void deleteSong(Song song) throws Exception {
         songManager.deleteSong(song);
         songsToBeViewed.remove(song);
+    }
+
+    public Song getSelectedSong() {
+        return selectedSong;
+    }
+
+    public void setSelectedSong(Song selectedSong) {
+        this.selectedSong = selectedSong;
+    }
+
+    public void updateSong(Song updatedSong) throws Exception {
+        songManager.updateMovie(updatedSong);
+
+        // update ListView
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(songManager.getAllSongs());
     }
 }
