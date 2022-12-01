@@ -187,7 +187,7 @@
             <Font name="Ravie" size="21.0" />
          </font>
       </Label>
-      <Button layoutX="10.0" layoutY="540.0" mnemonicParsing="false" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="318.0" layoutY="540.0" mnemonicParsing="false" onAction="#addPlaylist" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -205,7 +205,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="114.0" layoutY="540.0" mnemonicParsing="false" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="422.0" layoutY="540.0" mnemonicParsing="false" onAction="#editPlaylist" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -223,7 +223,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="224.0" layoutY="540.0" mnemonicParsing="false" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="532.0" layoutY="540.0" mnemonicParsing="false" onAction="#deletePlaylist" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -241,7 +241,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="425.0" layoutY="540.0" mnemonicParsing="false" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="114.0" layoutY="540.0" mnemonicParsing="false" onAction="#deleteFromPlaylist" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -43,7 +43,7 @@ public class SongModel {
     }
 
     public void updateSong(Song updatedSong) throws Exception {
-        songManager.updateMovie(updatedSong);
+        songManager.updateSong(updatedSong);
 
         // update ListView
         songsToBeViewed.clear();

@@ -26,7 +26,7 @@ public class SongManager {
         songDAO.deleteSong(song);
     }
 
-    public void updateMovie(Song updatedSong) throws Exception {
+    public void updateSong(Song updatedSong) throws Exception {
         songDAO.updateSong(updatedSong);
     }
 }

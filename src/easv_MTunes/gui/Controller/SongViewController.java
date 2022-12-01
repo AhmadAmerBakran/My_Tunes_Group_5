@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -312,6 +313,12 @@ public class SongViewController extends ControllerManager implements Initializab
 
     public void editSong(ActionEvent actionEvent) throws IOException {
         Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+        if(selectedSong==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Needed Info");
+            alert.setHeaderText("Please choose the song you would like to edit...");
+            alert.show();
+        }else{
         songModel.setSelectedSong(selectedSong);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
@@ -329,7 +336,8 @@ public class SongViewController extends ControllerManager implements Initializab
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
 
-        dialogWindow.showAndWait();
+        dialogWindow.showAndWait();}
+
 
 
     }
@@ -372,9 +380,52 @@ public class SongViewController extends ControllerManager implements Initializab
     }
 
     public void deleteSong(ActionEvent actionEvent) throws Exception {
-
-        songModel.deleteSong(getSelectedSong());
+        Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+        if(selectedSong==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Needed Info");
+            alert.setHeaderText("Please choose the song you would like to delete...");
+            alert.show();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Are you sure you want to delete: " + selectedSong.getTitle().concat( " ?"));
+            Optional<ButtonType> action = alert.showAndWait();
+            if(action.get() == ButtonType.OK)
+            {
+                songModel.deleteSong(getSelectedSong());
+            }
+        }
     }
 
 
+    public void addPlaylist(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/PlaylistsView.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        PlaylistsView playlistsView = loader.getController();
+       // playlistsView.setModel(super.getModel());
+        showAllSongs();
+        //songCrud.setup();
+
+
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("New Playlist");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+
+        dialogWindow.showAndWait();
+    }
+
+    public void editPlaylist(ActionEvent actionEvent) {
+    }
+
+    public void deletePlaylist(ActionEvent actionEvent) {
+    }
+
+    public void deleteFromPlaylist(ActionEvent actionEvent) {
+    }
 }

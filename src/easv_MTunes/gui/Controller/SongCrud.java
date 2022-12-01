@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
-public class SongCrud extends ControllerManager{
+public class SongCrud extends ControllerManager implements Initializable{
     @FXML
     private TextField txtCategory, txtTime, txtArtist, txtFile, txtTitle;
 
@@ -94,6 +94,11 @@ public class SongCrud extends ControllerManager{
         model.updateSong(updatedSong);
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         stage.close();
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
 }
