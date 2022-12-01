@@ -3,7 +3,9 @@ package easv_MTunes.DAL.db;
 import easv_MTunes.BE.Playlist;
 import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.IPlaylistDataAccess;
+import javafx.scene.shape.Path;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
 
         /**public Playlist createPlaylist(int id, String songTitle) throws Exception {
 
-            String sql = "INSERT INTO Playlist (Id, playlistTitle) VALUES (?,?);";
+            String sql = "INSERT INTO Playlist (Id, playlistTitle) VALUES (?,?,?);";
 
             try (Connection connection = dbConnector.getConnection()) {
                 PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -65,4 +67,45 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
                 throw new Exception("Could not create playlist", ex);
             }
         }*/
-    }}
+    }
+
+    @Override
+    public Playlist createPlaylist(int id, String songTitlePlaylist, File songFile) throws Exception {
+        String sql = "INSERT INTO Playlist (Id, SongTitlePlaylist,Path) VALUES (?,?,?);";
+
+        try (Connection connection = dbConnector.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String songPath = songFile.toString();
+
+            stmt.setInt(1, id);
+            stmt.setString(2, songTitlePlaylist);
+            stmt.setString(3, songPath);
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+
+            if (rs.next()){
+                id = rs.getInt(1);
+            }
+            //Playlist playlist = new Playlist(id,List<Song> songs, songTitlePlaylist);
+            //return playlist;
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+            throw new Exception("Could not create playlist", ex);
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public void updatePlaylist(Playlist playlist) throws Exception {
+
+    }
+
+    @Override
+    public void deleteSong(Playlist playlist) throws Exception {
+
+    }
+}

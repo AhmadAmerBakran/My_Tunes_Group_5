@@ -4,12 +4,12 @@ import java.util.List;
 
 public class AllPlaylists {
     private String playlistName;
-    private List<Song> songs;
+    private List<Playlist> playlists;
     private int time;
 
     public AllPlaylists(String playlistName, List<Song> songs, int time){
         this.playlistName = playlistName;
-        this.songs = songs;
+        this.playlists = playlists;
         this.time = time;
 
     }

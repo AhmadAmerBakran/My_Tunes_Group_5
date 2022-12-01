@@ -5,18 +5,18 @@ import java.util.List;
 public class Playlist {
 private int id;
 private List<Song> listPlaylist;
-private String songTitle;
+private String playlistSongTitle;
 
-    public Playlist(int id, List<Song> songs, String songTitle){
+    public Playlist(int id, List<Song> songs, String playlistSongTitle){
         this.id =id;
         this.listPlaylist = songs;
-        this.songTitle = songTitle;
+        this.playlistSongTitle = playlistSongTitle;
 
     }
 
-    public String getSongTitle(){return songTitle;}
+    public String getPlaylistSongTitle(){return playlistSongTitle;}
 
-    public void setPlaylistTitle(String playlistTitle){this.songTitle = songTitle;}
+    public void setPlaylistSongsTitle(String playlistTitle){this.playlistSongTitle = playlistTitle;}
 
     public int getId(){return id;}
 
