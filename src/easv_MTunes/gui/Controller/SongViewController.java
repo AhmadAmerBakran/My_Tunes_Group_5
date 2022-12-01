@@ -1,6 +1,8 @@
 package easv_MTunes.gui.Controller;
 
+import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
+import easv_MTunes.gui.Model.AllPlaylistsModel;
 import easv_MTunes.gui.Model.SongModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -37,6 +39,12 @@ import java.util.concurrent.Callable;
 public class SongViewController extends ControllerManager implements Initializable {
 
     @FXML
+    private TableColumn<AllPlaylists, Integer> cPListsSongs;
+    @FXML
+    private TableColumn<AllPlaylists, String> cPListsName;
+    @FXML
+    private TableView<AllPlaylists> pListsTable;
+    @FXML
     private TableColumn<Song, Integer> cTime;
     @FXML
     private TableColumn<Song, String> cArtist;
@@ -71,10 +79,12 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     private SongModel songModel;
+    private AllPlaylistsModel allPlaylistsModel;
 
     public SongViewController() {
         try {
             songModel = new SongModel();
+            allPlaylistsModel = new AllPlaylistsModel();
         }catch (Exception e){
 
             e.printStackTrace();
@@ -86,7 +96,7 @@ public class SongViewController extends ControllerManager implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        //showAllSongs();
+        //showAllSongsAndPlaylists();
         volumeSlider();
         timeSlider();
 
@@ -94,7 +104,8 @@ public class SongViewController extends ControllerManager implements Initializab
     @Override
     public void setup() {
         songModel = getModel().getSongModel();
-        showAllSongs();
+        allPlaylistsModel = getModel().getAllPlaylistsModel();
+        showAllSongsAndPlaylists();
 
     }
     public void play(ActionEvent actionEvent) {
@@ -114,12 +125,18 @@ public class SongViewController extends ControllerManager implements Initializab
         }
 
     }
-    public void showAllSongs()
+    public void showAllSongsAndPlaylists()
     {
         songTable.setItems(songModel.getObservableSongs());
         cTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         cArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
+        pListsTable.setItems(allPlaylistsModel.getObservableAllPlaylists());
+        cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
+        cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
+
     }
+
+
 
 
     public void playNext(ActionEvent actionEvent) {
@@ -358,7 +375,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
         SongCrud songCrud = loader.getController();
         songCrud.setModel(super.getModel());
-        showAllSongs();
+        showAllSongsAndPlaylists();
         //songCrud.setup();
 
 
@@ -377,6 +394,12 @@ public class SongViewController extends ControllerManager implements Initializab
         Song song;
         song = songTable.getSelectionModel().getSelectedItem();
         return song;
+    }
+    public AllPlaylists getSelectedplaylist()
+    {
+        AllPlaylists selectedPlaylist;
+        selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        return selectedPlaylist;
     }
 
     public void deleteSong(ActionEvent actionEvent) throws Exception {
@@ -400,14 +423,14 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     public void addPlaylist(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/PlaylistsView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
 
         PlaylistsView playlistsView = loader.getController();
-       // playlistsView.setModel(super.getModel());
-        showAllSongs();
-        //songCrud.setup();
+        playlistsView.setModel(super.getModel());
+        showAllSongsAndPlaylists();
+        playlistsView.setup();
 
 
         Stage dialogWindow = new Stage();
@@ -417,13 +440,59 @@ public class SongViewController extends ControllerManager implements Initializab
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
 
-        dialogWindow.showAndWait();
+        dialogWindow.showAndWait();*/
     }
 
-    public void editPlaylist(ActionEvent actionEvent) {
+    public void editPlaylist(ActionEvent actionEvent) throws IOException {
+        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        if(selectedPlaylist==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Needed Info");
+            alert.setHeaderText("Please choose the playlist you would like to edit...");
+            alert.show();
+        }else{
+            allPlaylistsModel.setSelectedPlaylist(selectedPlaylist);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/PlaylistsView.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            PlaylistsView playlistsView = loader.getController();
+            playlistsView.setModel(super.getModel());
+            playlistsView.setup();
+
+
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("Edit Song");
+            dialogWindow.initModality(Modality.WINDOW_MODAL);
+            dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogWindow.setScene(scene);
+
+            dialogWindow.showAndWait();}
+
     }
 
     public void deletePlaylist(ActionEvent actionEvent) {
+        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        if(selectedPlaylist==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Needed Info");
+            alert.setHeaderText("Please choose the playlist you would like to delete...");
+            alert.show();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Are you sure you want to delete: " + selectedPlaylist.getPlaylistName().concat( " ?"));
+            Optional<ButtonType> action = alert.showAndWait();
+            if(action.get() == ButtonType.OK)
+            {
+                try {
+                    allPlaylistsModel.deletePlaylist(getSelectedplaylist());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     public void deleteFromPlaylist(ActionEvent actionEvent) {

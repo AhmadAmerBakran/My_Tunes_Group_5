@@ -84,7 +84,7 @@ public class SongDAO_DB implements ISongDataAccess {
         catch (SQLException ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not create movie", ex);
+            throw new Exception("Could not create a Song", ex);
         }
 
     }

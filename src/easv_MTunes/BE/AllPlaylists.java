@@ -4,24 +4,35 @@ import java.util.List;
 
 public class AllPlaylists {
     private String playlistName;
-    private List<Song> songs;
-    private int time;
+    private int playlistId;
+    private Playlist playlist;
+    private int playlistSongsNumber;
 
-    public AllPlaylists(String playlistName, List<Song> songs, int time){
+    public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber){
+
         this.playlistName = playlistName;
-        this.songs = songs;
-        this.time = time;
+        //playlistSongsNumber = playlist.getPlaylistSongs().size();
+        this.playlistSongsNumber = playlistSongsNumber;
+        this.playlistId = playlistId;
 
     }
-    public String getPlaylistName(){return playlistName;}
 
-    public void setPlaylistName(String playlistName){this.playlistName = playlistName;}
+    public String getPlaylistName() {
+        return playlistName;
+    }
 
-    public List<Song> getSongs(){return songs;}
+    public void setPlaylistName(String playlistName) {
+        this.playlistName = playlistName;
+    }
 
-    public void setSongs(List<Song> songs){this.songs = songs;}
+    public int getPlaylistId() {
+        return playlistId;
+    }
 
-    public int getTime() {return time;}
 
-    public void setTime(int time) {this.time = time;}
+    public int getPlaylistSongsNumber() {
+        return playlistSongsNumber;
+    }
+
+
 }
