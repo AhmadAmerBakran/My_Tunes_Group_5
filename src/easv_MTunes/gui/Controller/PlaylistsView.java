@@ -34,7 +34,19 @@ public class PlaylistsView extends ControllerManager {
     }
 
     public void savePlaylist(ActionEvent actionEvent) {
+
+        String playlistName = txtPlaylistName.getText();
+        try {
+
+            allPlaylistsModel.createNewPlaylist(playlistName);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
+
 
     public void cancelEditting(ActionEvent actionEvent) {
     }

@@ -423,14 +423,14 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     public void addPlaylist(ActionEvent actionEvent) throws IOException {
-        /*FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/PlaylistsView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
 
         PlaylistsView playlistsView = loader.getController();
         playlistsView.setModel(super.getModel());
         showAllSongsAndPlaylists();
-        playlistsView.setup();
+        //playlistsView.setup();
 
 
         Stage dialogWindow = new Stage();
@@ -440,7 +440,7 @@ public class SongViewController extends ControllerManager implements Initializab
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
 
-        dialogWindow.showAndWait();*/
+        dialogWindow.showAndWait();
     }
 
     public void editPlaylist(ActionEvent actionEvent) throws IOException {

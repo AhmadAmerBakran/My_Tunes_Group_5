@@ -54,8 +54,41 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
     }
 
     @Override
-    public AllPlaylists addPlaylist(AllPlaylists newPlaylist) throws Exception {
-        return null;
+    public AllPlaylists createPlaylist(String name) throws Exception {
+        String sql = "INSERT INTO AllPlaylists (Name) VALUES (?);";
+
+        try (Connection connection = dbConnector.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+
+            // Bind parameters
+            stmt.setString(1,name);
+
+
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+
+            // Get the generated ID from the DB
+            ResultSet rs = stmt.getGeneratedKeys();
+            int id = 0;
+            int songsNumber = 0;
+
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+                //songsNumber = rs.getInt("Songs");
+
+            }
+            // Create song object and send up the layers
+            AllPlaylists allPlaylists = new AllPlaylists(id,name, songsNumber);
+            return allPlaylists;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            throw new Exception("Could not create a Song", ex);
+        }
     }
 
     @Override

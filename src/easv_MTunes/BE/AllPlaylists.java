@@ -1,6 +1,5 @@
 package easv_MTunes.BE;
 
-import java.util.List;
 
 public class AllPlaylists {
     private String playlistName;

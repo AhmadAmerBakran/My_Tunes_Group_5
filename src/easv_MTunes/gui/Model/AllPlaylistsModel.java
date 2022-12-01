@@ -5,6 +5,8 @@ import easv_MTunes.BE.Song;
 import easv_MTunes.BLL.AllPlaylistsManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.io.File;
 import java.sql.SQLException;
 
 
@@ -40,6 +42,11 @@ public class AllPlaylistsModel {
         // update ListView
         allPlaylistsToBeViewed.clear();
         allPlaylistsToBeViewed.addAll(allPlaylistsManager.getAllPlaylists());
+    }
+    public void createNewPlaylist(String name) throws Exception {
+        AllPlaylists allPlaylists = allPlaylistsManager.createNewPlaylist(name);
+        allPlaylistsToBeViewed.add(allPlaylists);
+
     }
 
 }
