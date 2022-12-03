@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 public class SongModel {
     private ObservableList<Song> songsToBeViewed;
@@ -22,6 +23,11 @@ public class SongModel {
     public ObservableList<Song> getObservableSongs()
     {
         return songsToBeViewed;
+    }
+    public void searchSong(String query) throws Exception {
+        List<Song> searchResults = songManager.searchMovies(query);
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(searchResults);
     }
     public void createNewSong(String title, String artist, File songFile) throws Exception {
         Song song = songManager.createNewSong(title, artist, songFile);

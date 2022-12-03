@@ -106,6 +106,13 @@ public class SongViewController extends ControllerManager implements Initializab
         songModel = getModel().getSongModel();
         allPlaylistsModel = getModel().getAllPlaylistsModel();
         showAllSongsAndPlaylists();
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                songModel.searchSong(newValue);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
     }
     public void play(ActionEvent actionEvent) {
