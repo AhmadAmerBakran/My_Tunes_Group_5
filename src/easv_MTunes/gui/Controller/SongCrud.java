@@ -84,7 +84,9 @@ public class SongCrud extends ControllerManager implements Initializable{
         txtArtist.setText(model.getSelectedSong().getArtist());
 
     }
-
+    public void setup2(){
+        model = getModel().getSongModel();
+    }
 
 
     public void updateSong(ActionEvent actionEvent) throws Exception {

@@ -383,7 +383,7 @@ public class SongViewController extends ControllerManager implements Initializab
         SongCrud songCrud = loader.getController();
         songCrud.setModel(super.getModel());
         showAllSongsAndPlaylists();
-        //songCrud.setup();
+        songCrud.setup2();
 
 
         Stage dialogWindow = new Stage();
