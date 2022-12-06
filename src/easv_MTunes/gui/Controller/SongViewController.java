@@ -1,12 +1,16 @@
 package easv_MTunes.gui.Controller;
 
 import easv_MTunes.BE.AllPlaylists;
+import easv_MTunes.BE.Playlist;
 import easv_MTunes.BE.Song;
+import easv_MTunes.DAL.db.DBConnector;
 import easv_MTunes.gui.Model.AllPlaylistsModel;
 import easv_MTunes.gui.Model.SongModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableListValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +19,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,9 +33,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -38,6 +47,8 @@ import java.util.concurrent.Callable;
 
 public class SongViewController extends ControllerManager implements Initializable {
 
+    public TableView<Playlist> pListTable;
+    public TableColumn<Song, String> cSongTitle;
     @FXML
     private TableColumn<AllPlaylists, Integer> cPListsSongs;
     @FXML
@@ -94,7 +105,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+        media = new Media( songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         //showAllSongsAndPlaylists();
         volumeSlider();
@@ -140,6 +151,7 @@ public class SongViewController extends ControllerManager implements Initializab
         pListsTable.setItems(allPlaylistsModel.getObservableAllPlaylists());
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
         cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
+        cSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
 
     }
 
@@ -365,15 +377,6 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     }
-    /*public void editAndAddWindow() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.setTitle("EditAdd");
-        stage.show();
-        stage.setResizable(false);
-    }*/
 
     public void addSong(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -504,4 +507,64 @@ public class SongViewController extends ControllerManager implements Initializab
 
     public void deleteFromPlaylist(ActionEvent actionEvent) {
     }
+
+
+
+
+    public void addToPlaylist(ActionEvent actionEvent) throws Exception {
+
+    /* DBConnector dbConnector = new DBConnector();
+        Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+
+
+        String sql = "INSERT INTO [" + selectedPlaylist.getPlaylistName() + "] (Title,Artist,Path) VALUES (?,?,?);";
+
+        try (Connection connection = dbConnector.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String songPath = selectedSong.getSongFile().toString();
+            String title = selectedSong.getTitle();
+            String artist = selectedSong.getArtist();
+
+
+            // Bind parameters
+            stmt.setString(1,title);
+            stmt.setString(2, artist);
+            stmt.setString(3, songPath);
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+
+
+            // Create song object and send up the layers
+           //Song song = new Song(id, title, artist, selectedSong.getSongFile());
+
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+
+        }*/
+        String title = getSelectedSong().getTitle();
+        String artist = getSelectedSong().getArtist();
+        File path = getSelectedSong().getSongFile();
+        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        allPlaylistsModel.addSongToPlaylist(title,artist,path);
+    }
+
+    public Song selectedSong(){
+
+
+
+        Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+
+        return selectedSong;
+    }
+    public AllPlaylists selectedPlaylist(){
+
+        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+
+        return selectedPlaylist;
+    }
+
 }

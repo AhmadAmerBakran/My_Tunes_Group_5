@@ -10,7 +10,17 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class PlaylistsView extends ControllerManager {
+    ArrayList<String> userListName = new ArrayList<String>();
+    public ArrayList<String> givePlayListname(){
+
+        return userListName;
+
+    }
+
 
     @FXML
     TextField txtPlaylistName;
@@ -36,6 +46,9 @@ public class PlaylistsView extends ControllerManager {
     public void savePlaylist(ActionEvent actionEvent) {
 
         String playlistName = txtPlaylistName.getText();
+
+        givePlayListname().add(playlistName);
+
         try {
 
             allPlaylistsModel.createNewPlaylist(playlistName);

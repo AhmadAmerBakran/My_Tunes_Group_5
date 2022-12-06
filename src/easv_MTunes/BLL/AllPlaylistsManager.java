@@ -4,6 +4,7 @@ import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.IAllPlaylistsDataAccess;
 import easv_MTunes.DAL.db.AllPlaylistsDAO_DB;
+import easv_MTunes.gui.Model.AllPlaylistsModel;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -29,5 +30,10 @@ public class AllPlaylistsManager {
     }
     public void updatePlaylist(AllPlaylists updatedPlaylist) throws Exception {
         allPlaylistsDAO_DB.updatePlaylist(updatedPlaylist);
+    }
+
+    public void addSongToPlaylist(String title, String artist, File path) throws Exception {
+
+        allPlaylistsDAO_DB.addSongToPlaylist(title, artist, path);
     }
 }

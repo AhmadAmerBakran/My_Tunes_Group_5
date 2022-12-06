@@ -1,5 +1,6 @@
 package easv_MTunes;
 
+import easv_MTunes.gui.Controller.PlaylistsView;
 import easv_MTunes.gui.Controller.SongViewController;
 import easv_MTunes.gui.Model.MTModel;
 import javafx.application.Application;
@@ -15,6 +16,9 @@ import javafx.stage.WindowEvent;
 public class Main extends Application {
     public static void main(String[] args) {
         Application.launch();
+        PlaylistsView playlistsView = new PlaylistsView();
+
+        System.out.println(playlistsView.givePlayListname().get(0));
     }
 
     @Override

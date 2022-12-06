@@ -5,6 +5,8 @@ import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Playlist;
 import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.IAllPlaylistsDataAccess;
+import easv_MTunes.gui.Controller.PlaylistsView;
+import easv_MTunes.gui.Controller.SongViewController;
 
 import java.io.File;
 import java.sql.*;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
+    private AllPlaylists deletedPlaylist;
 
     private DBConnector dbConnector;
 
@@ -57,8 +60,19 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
     public AllPlaylists createPlaylist(String name) throws Exception {
         String sql = "INSERT INTO AllPlaylists (Name) VALUES (?);";
 
+        String sql2 = "CREATE TABLE [dbo].[" + name + "] (\n" +
+                "     \n" +
+                "    [Id]  INT IDENTITY(1, 1) NOT NULL,\n" +
+                "    [Title]  NVARCHAR (MAX) NOT NULL,\n" +
+                "    [Artist]  NVARCHAR (MAX) ,\n" +
+                "    [Path]   NVARCHAR (MAX) NOT NULL,\n" +
+                "    " +
+                ");";
+
         try (Connection connection = dbConnector.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt2 = connection.prepareStatement(sql2);
+
 
 
             // Bind parameters
@@ -68,6 +82,7 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
             // Run the specified SQL statement
             stmt.executeUpdate();
+            stmt2.executeUpdate();
 
             // Get the generated ID from the DB
             ResultSet rs = stmt.getGeneratedKeys();
@@ -91,14 +106,49 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
         }
     }
 
+    public void addSongToPlaylist(String title, String artist, File path) throws Exception {
+
+
+        SongViewController songViewController = new SongViewController();
+
+        String sql = "INSERT INTO [" + songViewController.selectedPlaylist().getPlaylistName() + "] (Title,Artist,Path) VALUES (?,?,?);";
+
+        try (Connection connection = dbConnector.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String songPath = path.toString();
+
+
+            // Bind parameters
+
+            stmt.setString(1,title);
+            stmt.setString(2, artist);
+            stmt.setString(3, songPath);
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+
+            // Create song object and send up the layers
+           // Song song = new Song(id, title, artist, songViewController.selectedSong().getSongFile());
+
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+
+        }
+    }
+
     @Override
     public void deletePlaylist(AllPlaylists deletedPlaylist) throws Exception {
+
+        this.deletedPlaylist = deletedPlaylist;
         try (Connection conn = dbConnector.getConnection()) {
 
             String sql = "DELETE FROM AllPlaylists WHERE Name = (?) AND Id = (?);";
-
+            String sql2 = "DROP TABLE [dbo].[" + deletedPlaylist.getPlaylistName() + "] ";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt2 = conn.prepareStatement(sql2);
 
             // Bind parameters
             stmt.setString(1, deletedPlaylist.getPlaylistName());
@@ -106,6 +156,7 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
 
             stmt.executeUpdate();
+            stmt2.executeUpdate();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
