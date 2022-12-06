@@ -67,12 +67,8 @@ public class PlaylistsView extends ControllerManager {
     @Override
     public void setup() {
         allPlaylistsModel = getModel().getAllPlaylistsModel();
-
-        txtPlaylistName.setText(allPlaylistsModel.getSelectedPlaylist().getPlaylistName());
-
-    }
-
-    public void setup2(){
-        allPlaylistsModel = getModel().getAllPlaylistsModel();
+        if(allPlaylistsModel.getSelectedPlaylist() != null) {
+            txtPlaylistName.setText(allPlaylistsModel.getSelectedPlaylist().getPlaylistName());
+        }
     }
 }
