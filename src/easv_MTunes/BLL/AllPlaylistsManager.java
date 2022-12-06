@@ -1,11 +1,9 @@
 package easv_MTunes.BLL;
 
 import easv_MTunes.BE.AllPlaylists;
-import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.IAllPlaylistsDataAccess;
 import easv_MTunes.DAL.db.AllPlaylistsDAO_DB;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 

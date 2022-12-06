@@ -32,7 +32,6 @@ public class SongModel {
     public void createNewSong(String title, String artist, File songFile) throws Exception {
         Song song = songManager.createNewSong(title, artist, songFile);
         songsToBeViewed.add(song);
-        showList();
 
     }
 
@@ -51,10 +50,8 @@ public class SongModel {
 
     public void updateSong(Song updatedSong) throws Exception {
         songManager.updateSong(updatedSong);
-        showList();
-    }
-    public void showList() throws Exception {
-        //Update the listview
+
+        // update ListView
         songsToBeViewed.clear();
         songsToBeViewed.addAll(songManager.getAllSongs());
     }

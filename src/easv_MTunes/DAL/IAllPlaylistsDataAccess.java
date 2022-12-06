@@ -2,7 +2,7 @@ package easv_MTunes.DAL;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import easv_MTunes.BE.AllPlaylists;
-import easv_MTunes.BE.Playlist;
+
 import java.util.List;
 
 

@@ -277,7 +277,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="909.0" layoutY="540.0" mnemonicParsing="false" styleClass="transparent" stylesheets="@design.css">
+      <Button layoutX="909.0" layoutY="540.0" mnemonicParsing="false" onAction="#addSongToPlaylist" styleClass="transparent" stylesheets="@design.css">
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>

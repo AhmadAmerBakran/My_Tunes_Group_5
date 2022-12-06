@@ -1,33 +1,23 @@
-/*
 package easv_MTunes.BLL;
 
-import easv_MTunes.BE.Playlist;
-import easv_MTunes.DAL.IPlaylistDataAccess;
+import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.db.PlaylistDAO_DB;
 
-import java.io.File;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistManager {
-    private IPlaylistDataAccess playlistDAO;
+    PlaylistDAO_DB playlistDAO_DB;
 
-    public PlaylistManager() throws SQLException {
-        playlistDAO = new PlaylistDAO_DB();
+    public PlaylistManager() {
+        playlistDAO_DB = new PlaylistDAO_DB();
     }
-
-    public ArrayList<Playlist> getCurrentPlaylist() throws Exception {
-        return playlistDAO.getPlaylistSongs();
+    public List<Song> getAllPlaylistSongs(String playlistName) throws Exception {
+        return playlistDAO_DB.getAllPlaylistSongs(playlistName);
     }
-    public Playlist createNewPlaylist(int id, String title, File songFile) throws Exception {
-        return playlistDAO.createPlaylist(id, title, songFile);
+    public Song addSongToPlaylist(Song addedSong, String playlistName) throws Exception {
+        return playlistDAO_DB.addSongToPlaylist(addedSong, playlistName);
     }
-    public void deletePlaylist(Playlist playlist) throws Exception {
-        playlistDAO.deleteSong(playlist);
-    }
-
-    public void updatePlaylist(Playlist updatedPlaylist) throws Exception {
-        playlistDAO.updatePlaylist(updatedPlaylist);
+    public void deleteSongFromPlaylist(Song song, String playlistName) throws Exception {
+        playlistDAO_DB.deleteSongFromPlaylist(song, playlistName);
     }
 }
-*/

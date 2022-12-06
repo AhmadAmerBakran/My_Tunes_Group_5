@@ -1,55 +1,48 @@
-/*
 package easv_MTunes.gui.Model;
 
-import easv_MTunes.BE.Playlist;
+import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
 import easv_MTunes.BLL.PlaylistManager;
+import easv_MTunes.BLL.SongManager;
+import easv_MTunes.gui.Controller.SongViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 public class PlaylistModel {
-    private ObservableList<Song> currentPlaylist;
+    private ObservableList<Song> songsToBeViewed;
     private PlaylistManager playlistManager;
-    private Playlist selectedPlaylist;
-
+    private AllPlaylists selectedPlaylist;
     public PlaylistModel() throws Exception {
         playlistManager = new PlaylistManager();
-        currentPlaylist = FXCollections.observableArrayList();
-        currentPlaylist.addAll(playlistManager.getCurrentPlaylist());
-
+        songsToBeViewed = FXCollections.observableArrayList();
+        if(getSelectedPlaylist()!=null)
+        {songsToBeViewed.addAll(playlistManager.getAllPlaylistSongs(getSelectedPlaylist().getPlaylistName()));}
     }
-    public ObservableList<Playlist> getObservablePlaylist()
+    public AllPlaylists getSelectedPlaylist()
     {
-        return currentPlaylist;
-    }
-    public void createNewPlaylist(int id, String title, File songFile) throws Exception {
-        Playlist playlist = playlistManager.createNewPlaylist(id, title, songFile);
-        currentPlaylist.add(playlist);
-
-    }
-
-    public void deletePlaylistSongs(Playlist playlist) throws Exception {
-        playlistManager.deletePlaylist(playlist);
-        currentPlaylist.remove(playlist);
-    }
-
-    public Playlist getSelectedPlaylist() {
         return selectedPlaylist;
     }
 
-    public void setSelectedPlaylist(Playlist selectedPlaylist) {
-        this.selectedPlaylist = selectedPlaylist;
+
+    public ObservableList<Song> getObservableSongs() {
+        return songsToBeViewed;
     }
 
-    public void updateSong(Song updatedSong) throws Exception {
-        songManager.updateMovie(updatedSong);
 
-        // update ListView
-        songsToBeViewed.clear();
-        songsToBeViewed.addAll(songManager.getAllSongs());
+    public void addSongToPlaylist(Song addedSong, String playlistName) throws Exception {
+        Song song = playlistManager.addSongToPlaylist(addedSong, playlistName);
+        songsToBeViewed.add(song);
+
+
     }
+    public void deleteSongFromPlaylist(Song song, String playListName) throws Exception {
+        playlistManager.deleteSongFromPlaylist(song, playListName);
+        songsToBeViewed.remove(song);
+    }
+
+
 }
-*/
