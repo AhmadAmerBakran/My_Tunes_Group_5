@@ -37,18 +37,25 @@ public class AllPlaylistsModel {
     public void deletePlaylist(AllPlaylists deletedPlaylist) throws Exception {
         allPlaylistsManager.deletePlaylist(deletedPlaylist);
         allPlaylistsToBeViewed.remove(deletedPlaylist);
+
+        showList();
     }
     public void updatePlaylist(AllPlaylists updatedPlaylist) throws Exception {
         allPlaylistsManager.updatePlaylist(updatedPlaylist);
 
-        // update ListView
-        allPlaylistsToBeViewed.clear();
-        allPlaylistsToBeViewed.addAll(allPlaylistsManager.getAllPlaylists());
+        showList();
     }
     public void createNewPlaylist(String name) throws Exception {
         AllPlaylists allPlaylists = allPlaylistsManager.createNewPlaylist(name);
         allPlaylistsToBeViewed.add(allPlaylists);
 
+        showList();
+
+    }
+    public void showList() throws Exception {
+        //Update the listview
+        allPlaylistsToBeViewed.clear();
+        allPlaylistsToBeViewed.addAll(allPlaylistsManager.getAllPlaylists());
     }
    public void addSongToPlaylist(String title, String artist, File path) throws Exception {
         SongViewController songViewController = new SongViewController();

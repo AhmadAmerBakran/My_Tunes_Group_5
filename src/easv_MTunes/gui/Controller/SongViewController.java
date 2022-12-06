@@ -440,7 +440,7 @@ public class SongViewController extends ControllerManager implements Initializab
         PlaylistsView playlistsView = loader.getController();
         playlistsView.setModel(super.getModel());
         showAllSongsAndPlaylists();
-        //playlistsView.setup();
+        playlistsView.setup2();
 
 
         Stage dialogWindow = new Stage();
