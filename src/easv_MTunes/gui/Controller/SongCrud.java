@@ -80,9 +80,10 @@ public class SongCrud extends ControllerManager implements Initializable{
     public void setup() {
         model = getModel().getSongModel();
 
-        txtTitle.setText(model.getSelectedSong().getTitle());
-        txtArtist.setText(model.getSelectedSong().getArtist());
-
+        if(model.getSelectedSong() != null) {
+            txtTitle.setText(model.getSelectedSong().getTitle());
+            txtArtist.setText(model.getSelectedSong().getArtist());
+        }
     }
 
 

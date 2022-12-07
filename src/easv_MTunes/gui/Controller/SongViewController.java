@@ -403,7 +403,7 @@ public class SongViewController extends ControllerManager implements Initializab
         SongCrud songCrud = loader.getController();
         songCrud.setModel(super.getModel());
         showAllSongsAndPlaylists();
-        //songCrud.setup();
+        songCrud.setup();
 
 
         Stage dialogWindow = new Stage();
@@ -457,7 +457,7 @@ public class SongViewController extends ControllerManager implements Initializab
         PlaylistsView playlistsView = loader.getController();
         playlistsView.setModel(super.getModel());
         showAllSongsAndPlaylists();
-        //playlistsView.setup();
+        playlistsView.setup();
 
 
         Stage dialogWindow = new Stage();

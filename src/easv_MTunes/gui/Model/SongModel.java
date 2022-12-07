@@ -51,7 +51,10 @@ public class SongModel {
     public void updateSong(Song updatedSong) throws Exception {
         songManager.updateSong(updatedSong);
 
-        // update ListView
+        showList();
+    }
+    public void showList() throws Exception {
+        //Update the listview
         songsToBeViewed.clear();
         songsToBeViewed.addAll(songManager.getAllSongs());
     }
