@@ -489,7 +489,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
             Stage dialogWindow = new Stage();
-            dialogWindow.setTitle("Edit Song");
+            dialogWindow.setTitle("Edit Playlist");
             dialogWindow.initModality(Modality.WINDOW_MODAL);
             dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
             Scene scene = new Scene(pane);

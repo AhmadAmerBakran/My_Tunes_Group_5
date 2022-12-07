@@ -56,6 +56,8 @@ public class PlaylistsView extends ControllerManager {
 
 
     public void cancelEditting(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     @Override
