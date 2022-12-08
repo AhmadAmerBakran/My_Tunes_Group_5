@@ -523,7 +523,7 @@ public class SongViewController extends ControllerManager implements Initializab
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
         try {
             if(selectedPlaylist !=null)
-                songsInPlaylistModel.addSongToPlaylist();
+                songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, song);
         } catch (Exception e) {
 
     }

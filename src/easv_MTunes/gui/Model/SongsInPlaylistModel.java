@@ -33,8 +33,8 @@ public class SongsInPlaylistModel {
     }
 
 
-    public void addSongToPlaylist(Song addedSong) throws Exception {
-        Song song = songsInPlaylistManager.addSongToPlaylist();
+    public void addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
+        songsInPlaylistManager.addSongToPlaylist(playlist, song);
         songsToBeViewed.add(song);
 
 
