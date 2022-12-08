@@ -4,7 +4,7 @@ package easv_MTunes.BE;
 public class AllPlaylists {
     private String playlistName;
     private int playlistId;
-    private Playlist playlist;
+
     private int playlistSongsNumber;
 
     public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber){

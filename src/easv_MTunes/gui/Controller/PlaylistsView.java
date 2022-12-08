@@ -3,7 +3,6 @@ package easv_MTunes.gui.Controller;
 import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
 import easv_MTunes.gui.Model.AllPlaylistsModel;
-import easv_MTunes.gui.Model.PlaylistModel;
 import easv_MTunes.gui.Model.SongModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +16,11 @@ public class PlaylistsView extends ControllerManager {
     TextField txtPlaylistName;
     private AllPlaylistsModel allPlaylistsModel;
     private SongModel songModel;
-    private PlaylistModel playlistModel;
+
 
     public PlaylistsView() {
         try {
            allPlaylistsModel = new AllPlaylistsModel();
-           playlistModel = new PlaylistModel();
            songModel = new SongModel();
         }catch (Exception e){
 
@@ -64,8 +62,5 @@ public class PlaylistsView extends ControllerManager {
     public void setup() {
         allPlaylistsModel = getModel().getAllPlaylistsModel();
 
-        if(playlistModel.getSelectedPlaylist() != null) {
-            txtPlaylistName.setText(allPlaylistsModel.getSelectedPlaylist().getPlaylistName());
-        }
     }
 }

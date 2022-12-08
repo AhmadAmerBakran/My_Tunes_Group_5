@@ -1,4 +1,4 @@
-package easv_MTunes.BE;
+/**package easv_MTunes.BE;
 
 import java.io.File;
 
@@ -46,5 +46,5 @@ public class Playlist {
     public void setSongFile(File songFile) {
         this.songFile = songFile;
     }
-}
+}*/
 

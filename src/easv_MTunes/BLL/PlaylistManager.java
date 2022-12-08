@@ -1,4 +1,4 @@
-package easv_MTunes.BLL;
+/**package easv_MTunes.BLL;
 
 import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.db.PlaylistDAO_DB;
@@ -21,3 +21,4 @@ public class PlaylistManager {
         playlistDAO_DB.deleteSongFromPlaylist(song, playlistName);
     }
 }
+*/

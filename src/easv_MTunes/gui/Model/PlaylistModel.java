@@ -1,4 +1,4 @@
-package easv_MTunes.gui.Model;
+/**package easv_MTunes.gui.Model;
 
 import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
@@ -46,3 +46,4 @@ public class PlaylistModel {
 
 
 }
+*/

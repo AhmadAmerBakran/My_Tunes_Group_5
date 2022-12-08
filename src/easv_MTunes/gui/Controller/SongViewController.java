@@ -1,10 +1,8 @@
 package easv_MTunes.gui.Controller;
 
 import easv_MTunes.BE.AllPlaylists;
-import easv_MTunes.BE.Playlist;
 import easv_MTunes.BE.Song;
 import easv_MTunes.gui.Model.AllPlaylistsModel;
-import easv_MTunes.gui.Model.PlaylistModel;
 import easv_MTunes.gui.Model.SongModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -57,10 +55,6 @@ public class SongViewController extends ControllerManager implements Initializab
     @FXML
     private TableView<Song>  pListTable;
     @FXML
-    private TableColumn<Playlist, Integer> cSongId;
-    @FXML
-    private TableColumn<Playlist, String> cSongTitle;
-    @FXML
     private Label playedSong;
     @FXML
     private ImageView imgPlay;
@@ -88,13 +82,11 @@ public class SongViewController extends ControllerManager implements Initializab
 
     private SongModel songModel;
     private AllPlaylistsModel allPlaylistsModel;
-    private PlaylistModel playlistModel;
 
     public SongViewController() {
         try {
             songModel = new SongModel();
             allPlaylistsModel = new AllPlaylistsModel();
-            playlistModel = new PlaylistModel();
         }catch (Exception e){
 
             e.printStackTrace();
@@ -153,11 +145,6 @@ public class SongViewController extends ControllerManager implements Initializab
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
         cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
 
-
-
-        pListTable.setItems(playlistModel.getObservableSongs());
-        cSongId.setCellValueFactory(new PropertyValueFactory<Playlist, Integer>("id"));
-        cSongTitle.setCellValueFactory(new PropertyValueFactory<Playlist, String>("title"));
 
 
 
@@ -525,23 +512,11 @@ public class SongViewController extends ControllerManager implements Initializab
     public void deleteFromPlaylist(ActionEvent actionEvent) {
         Song song = pListTable.getSelectionModel().getSelectedItem();
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-
-        try {
-            if(selectedPlaylist !=null)
-            playlistModel.deleteSongFromPlaylist(song, selectedPlaylist.getPlaylistName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void addSongToPlaylist(ActionEvent actionEvent) {
         Song song = songTable.getSelectionModel().getSelectedItem();
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-        try {
-            if(selectedPlaylist !=null)
-            playlistModel.addSongToPlaylist(song, selectedPlaylist.getPlaylistName());
-        } catch (Exception e) {
-           // throw new RuntimeException(e);
-        }
+
     }
 }
