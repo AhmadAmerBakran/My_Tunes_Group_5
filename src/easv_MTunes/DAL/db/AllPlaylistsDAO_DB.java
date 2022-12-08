@@ -55,18 +55,18 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
     public AllPlaylists createPlaylist(String name) throws Exception {
         String sql = "INSERT INTO AllPlaylists (Name) VALUES (?);";
 
-        String sql2 = "CREATE TABLE [dbo].[" + name + "] (\n" +
+        /**String sql2 = "CREATE TABLE [dbo].[" + name + "] (\n" +
                 "     \n" +
                 "    [Id]  INT IDENTITY(1, 1) NOT NULL,\n" +
                 "    [Title]  NVARCHAR (MAX) NOT NULL,\n" +
                 "    [Artist]  NVARCHAR (MAX) ,\n" +
                 "    [Path]   NVARCHAR (MAX) NOT NULL,\n" +
                 "    " +
-                ");";
+                ");";*/
 
         try (Connection connection = dbConnector.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement stmt2 = connection.prepareStatement(sql2);
+            //PreparedStatement stmt2 = connection.prepareStatement(sql2);
 
 
 
@@ -77,7 +77,7 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
             // Run the specified SQL statement
             stmt.executeUpdate();
-            stmt2.executeUpdate();
+            //stmt2.executeUpdate();
 
             // Get the generated ID from the DB
             ResultSet rs = stmt.getGeneratedKeys();
@@ -104,12 +104,12 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
     @Override
     public void deletePlaylist(AllPlaylists deletedPlaylist) throws Exception {
         String sql = "DELETE FROM AllPlaylists WHERE Name = (?) AND Id = (?);";
-        String sql1 = "DROP TABLE [" + deletedPlaylist.getPlaylistName() + "];";
+        //String sql1 = "DROP TABLE [" + deletedPlaylist.getPlaylistName() + "];";
 
         try (Connection conn = dbConnector.getConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(sql);
-            PreparedStatement stmt1 = conn.prepareStatement(sql1);
+            //PreparedStatement stmt1 = conn.prepareStatement(sql1);
 
             // Bind parameters
             stmt.setString(1, deletedPlaylist.getPlaylistName());
@@ -117,7 +117,7 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
 
             stmt.executeUpdate();
-            stmt1.executeUpdate();
+            //stmt1.executeUpdate();
 
         }
         catch (SQLException ex) {
