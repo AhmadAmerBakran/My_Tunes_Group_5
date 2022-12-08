@@ -1,8 +1,8 @@
-/**package easv_MTunes.gui.Model;
+package easv_MTunes.gui.Model;
 
 import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
-import easv_MTunes.BLL.PlaylistManager;
+import easv_MTunes.BLL.SongsInPlaylistManager;
 import easv_MTunes.BLL.SongManager;
 import easv_MTunes.gui.Controller.SongViewController;
 import javafx.collections.FXCollections;
@@ -12,15 +12,15 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PlaylistModel {
+public class SongsInPlaylistModel {
     private ObservableList<Song> songsToBeViewed;
-    private PlaylistManager playlistManager;
+    private SongsInPlaylistManager songsInPlaylistManager;
     private AllPlaylists selectedPlaylist;
-    public PlaylistModel() throws Exception {
-        playlistManager = new PlaylistManager();
+    public SongsInPlaylistModel() throws Exception {
+        songsInPlaylistManager = new SongsInPlaylistManager();
         songsToBeViewed = FXCollections.observableArrayList();
         if(getSelectedPlaylist()!=null)
-        {songsToBeViewed.addAll(playlistManager.getAllPlaylistSongs(getSelectedPlaylist().getPlaylistName()));}
+        {songsToBeViewed.addAll(songsInPlaylistManager.getAllPlaylistSongs(getSelectedPlaylist().getPlaylistName()));}
     }
     public AllPlaylists getSelectedPlaylist()
     {
@@ -33,17 +33,16 @@ public class PlaylistModel {
     }
 
 
-    public void addSongToPlaylist(Song addedSong, String playlistName) throws Exception {
-        Song song = playlistManager.addSongToPlaylist(addedSong, playlistName);
+    public void addSongToPlaylist(Song addedSong) throws Exception {
+        Song song = songsInPlaylistManager.addSongToPlaylist();
         songsToBeViewed.add(song);
 
 
     }
     public void deleteSongFromPlaylist(Song song, String playListName) throws Exception {
-        playlistManager.deleteSongFromPlaylist(song, playListName);
+        songsInPlaylistManager.deleteSongFromPlaylist(song, playListName);
         songsToBeViewed.remove(song);
     }
 
 
 }
-*/

@@ -3,7 +3,6 @@ package easv_MTunes.BE;
 import java.io.File;
 
 public class Song {
-
     private int id;
     private String title, artist;
     private File songFile;
@@ -15,6 +14,10 @@ public class Song {
         this.songFile = songFile;
         this.artist = artist;
 
+    }
+    public  Song(int id, String title){
+        this.id = id;
+        this.title = title;
     }
 
     public String getArtist() {

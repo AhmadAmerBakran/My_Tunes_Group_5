@@ -1,21 +1,23 @@
-/**package easv_MTunes.DAL.db;
+package easv_MTunes.DAL.db;
 
 
+import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
-import easv_MTunes.DAL.IPlaylistDataAccess;
+import easv_MTunes.DAL.ISongsInPlaylistDataAccess;
+
 
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class PlaylistDAO_DB implements IPlaylistDataAccess {
+public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
     private DBConnector dbConnector;
 
-    public PlaylistDAO_DB() {
+    public SongsInPlaylistDAO_DB(){
         dbConnector = new DBConnector();
     }
 
-    public ArrayList<Song> getAllPlaylistSongs(String playlistName) throws SQLException {
+    public ArrayList<Song> getAllPlaylistSongs() throws SQLException {
         //Create and return songs
         ArrayList<Song> allSongList = new ArrayList<>();
 
@@ -23,7 +25,11 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
         try (Connection connection = dbConnector.getConnection())
         {
             //Create an SQL command
-            String sql = "SELECT * FROM [" + playlistName + "];";
+            String sql = "SELECT *\n" +
+                    "            FROM AllPlaylists pl, SongsInPlaylist sip, Song s \n" +
+                    "            WHERE pl.Id = sip.PlaylistID\n" +
+                    "            AND s.Id = sip.SongID\n" +
+                    "            ORDER BY pl.Name";
 
             //Create some statements
             Statement statement = connection.createStatement();
@@ -36,11 +42,8 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
                 {
                     int id = resultSet.getInt("Id");
                     String title = resultSet.getString("Title");
-                    String artist = resultSet.getString("Artist");
-                    String songPath = resultSet.getString("Path");
-                    File songFile = new File(songPath);
 
-                    Song song = new Song(id, title,artist, songFile);
+                    Song song = new Song(id, title);
                     allSongList.add(song);
                 }
             }
@@ -48,22 +51,17 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
         return allSongList;
     }
 
-    public Song addSongToPlaylist(Song addedSong, String playlistName) throws Exception {
+    public Song addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
         // Dynamic SQL
 
-
-        String sql = "INSERT INTO [" + playlistName + "] (Title,Artist,Path) VALUES (?,?,?);";
+        String sql = "INSERT INTO [SongsInPlaylist] VALUES (?,?);";
 
         try (Connection connection = dbConnector.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            String songPath = addedSong.getSongFile().toString();
-            String title = addedSong.getTitle();
-            String artist = addedSong.getArtist();
 
             // Bind parameters
-            stmt.setString(1,title);
-            stmt.setString(2, artist);
-            stmt.setString(3, songPath);
+            stmt.setInt(1, playlist.getPlaylistId());
+            stmt.setInt(2, song.getId());
 
             // Run the specified SQL statement
             stmt.executeUpdate();
@@ -78,13 +76,15 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
             }
 
             // Create song object and send up the layers
-            Song song = new Song(id, title, artist, addedSong.getSongFile());
-            return song;
+            String title = song.getTitle();
+
+            Song songInPlaylist = new Song(id, title, song.getArtist(), song.getSongFile());
+            return songInPlaylist;
         }
-        catch (SQLException ex)
+        catch (Exception ex)
         {
             ex.printStackTrace();
-            throw new Exception("Could not create a Song", ex);
+            throw new Exception("Could not add Song to playlist", ex);
         }
 
     }
@@ -115,4 +115,3 @@ public class PlaylistDAO_DB implements IPlaylistDataAccess {
 
     }
 }
-*/

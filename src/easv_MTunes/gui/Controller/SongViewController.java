@@ -4,6 +4,7 @@ import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
 import easv_MTunes.gui.Model.AllPlaylistsModel;
 import easv_MTunes.gui.Model.SongModel;
+import easv_MTunes.gui.Model.SongsInPlaylistModel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -81,11 +82,13 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     private SongModel songModel;
+    private SongsInPlaylistModel songsInPlaylistModel;
     private AllPlaylistsModel allPlaylistsModel;
 
     public SongViewController() {
         try {
             songModel = new SongModel();
+            songsInPlaylistModel = new SongsInPlaylistModel();
             allPlaylistsModel = new AllPlaylistsModel();
         }catch (Exception e){
 
@@ -515,8 +518,13 @@ public class SongViewController extends ControllerManager implements Initializab
     }
 
     public void addSongToPlaylist(ActionEvent actionEvent) {
+
         Song song = songTable.getSelectionModel().getSelectedItem();
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        try {
+            if(selectedPlaylist !=null)
+                songsInPlaylistModel.addSongToPlaylist();
+        } catch (Exception e) {
 
     }
-}
+}}
