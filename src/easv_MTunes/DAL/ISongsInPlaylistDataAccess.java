@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface ISongsInPlaylistDataAccess  {
     public ArrayList<Song> getAllPlaylistSongs()throws SQLException;
     public Song addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception;
-    public void deleteSongFromPlaylist(AllPlaylists playlist, Song deletedSong) throws Exception;
+    public void deleteSongFromPlaylist(AllPlaylists playlist, Song song) throws Exception;
 }

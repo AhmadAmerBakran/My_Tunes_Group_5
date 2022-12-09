@@ -88,30 +88,23 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         }
 
     }
-
-
-
-    public void deleteSongFromPlaylist(Song deletedSong, String playlistName) throws Exception {
+    public void deleteSongFromPlaylist(AllPlaylists playlist, Song song) throws Exception {
 
         try (Connection conn = dbConnector.getConnection()) {
 
-            String sql = "DELETE FROM [" + playlistName + "] WHERE Title = (?) AND Artist = (?);";
-
+            String sql = "DELETE FROM SongsInPlaylist WHERE SongID = (?);";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            // Bind parameters
-            stmt.setString(1, deletedSong.getTitle());
-            stmt.setString(2, deletedSong.getArtist());
-
+            stmt.setInt(1, song.getId());
 
             stmt.executeUpdate();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception( ex);
+            throw new Exception(ex);
         }
 
+    }
 
     }
-}
