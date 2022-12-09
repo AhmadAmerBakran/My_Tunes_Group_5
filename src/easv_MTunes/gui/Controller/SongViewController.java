@@ -102,6 +102,7 @@ public class SongViewController extends ControllerManager implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        sipListTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {AllPlaylists p = allPlaylistsModel.getSelectedPlaylist(); sipListTable.getItems().addAll(songsInPlaylistModel.getObservableSongs());});
         //showAllSongsAndPlaylists();
         volumeSlider();
         timeSlider();
@@ -373,19 +374,7 @@ public class SongViewController extends ControllerManager implements Initializab
         dialogWindow.setScene(scene);
 
         dialogWindow.showAndWait();}
-
-
-
     }
-    /*public void editAndAddWindow() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.setTitle("EditAdd");
-        stage.show();
-        stage.setResizable(false);
-    }*/
 
     public void addSong(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();

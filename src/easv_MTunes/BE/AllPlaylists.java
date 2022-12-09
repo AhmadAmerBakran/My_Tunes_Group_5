@@ -6,6 +6,7 @@ public class AllPlaylists {
     private int playlistId;
 
     private int playlistSongsNumber;
+    private AllPlaylists playlist;
 
     public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber){
 
@@ -33,5 +34,12 @@ public class AllPlaylists {
         return playlistSongsNumber;
     }
 
+    public AllPlaylists getPlaylist() {
 
+        return playlist;
+    }
+
+    public void setPlaylist(AllPlaylists playlist) {
+        this.playlist = playlist;
+    }
 }

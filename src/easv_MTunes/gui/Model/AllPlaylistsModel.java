@@ -6,7 +6,6 @@ import easv_MTunes.BLL.AllPlaylistsManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
 import java.sql.SQLException;
 
 
@@ -16,6 +15,9 @@ public class AllPlaylistsModel {
     private AllPlaylists selectedPlaylist;
 
     public AllPlaylists getSelectedPlaylist() {
+        return selectedPlaylist;
+    }
+    public  AllPlaylists getSelectedPlaylistListner(){
         return selectedPlaylist;
     }
 
