@@ -18,7 +18,7 @@ public class SongsInPlaylistManager {
     public Song addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
         return songsInPlaylistDAO_DB.addSongToPlaylist(playlist,song);
     }
-    public void deleteSongFromPlaylist(Song song, String playlistName) throws Exception {
-        songsInPlaylistDAO_DB.deleteSongFromPlaylist(song, playlistName);
+    public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
+        songsInPlaylistDAO_DB.deleteSongFromPlaylist(playlists, song);
     }
 }

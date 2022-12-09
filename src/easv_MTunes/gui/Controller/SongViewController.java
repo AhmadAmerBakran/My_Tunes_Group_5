@@ -39,6 +39,8 @@ import java.util.concurrent.Callable;
 
 public class SongViewController extends ControllerManager implements Initializable {
 
+    public TableColumn <Song, String>cSongTitle;
+    public TableColumn <Song, Integer>cSongId;
     @FXML
     private TableColumn<AllPlaylists, Integer> cPListsSongs;
     @FXML
@@ -148,7 +150,8 @@ public class SongViewController extends ControllerManager implements Initializab
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
         cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
 
-
+        pListTable.setItems(songsInPlaylistModel.getObservableSongs());
+        cSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
 
 
     }
@@ -419,6 +422,13 @@ public class SongViewController extends ControllerManager implements Initializab
         return selectedPlaylist;
     }
 
+    public Song getSelectedSongFromPlaylist()
+    {
+        Song selectedSongFromPlaylist;
+        selectedSongFromPlaylist = pListTable.getSelectionModel().getSelectedItem();
+        return selectedSongFromPlaylist;
+    }
+
     public void deleteSong(ActionEvent actionEvent) throws Exception {
         Song selectedSong = songTable.getSelectionModel().getSelectedItem();
         if(selectedSong==null){
@@ -512,9 +522,19 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-    public void deleteFromPlaylist(ActionEvent actionEvent) {
+    public void deleteFromPlaylist(ActionEvent actionEvent)  {
         Song song = pListTable.getSelectionModel().getSelectedItem();
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+
+        try {
+            if(getSelectedSongFromPlaylist() !=null) {
+                songsInPlaylistModel.deleteSongFromPlaylist(getSelectedplaylist(), getSelectedSong());
+
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addSongToPlaylist(ActionEvent actionEvent) {

@@ -39,8 +39,8 @@ public class SongsInPlaylistModel {
 
 
     }
-    public void deleteSongFromPlaylist(Song song, String playListName) throws Exception {
-        songsInPlaylistManager.deleteSongFromPlaylist(song, playListName);
+    public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
+        songsInPlaylistManager.deleteSongFromPlaylist(playlists, song);
         songsToBeViewed.remove(song);
     }
 
