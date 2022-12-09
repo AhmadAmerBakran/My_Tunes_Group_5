@@ -109,8 +109,10 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         }
         catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception( ex);
+            throw new Exception( ex);// test
+
         }
+
 
 
     }
