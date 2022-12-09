@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="body_background" stylesheets="@design.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="easv_MTunes.gui.Controller.SongViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="body_background" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="easv_MTunes.gui.Controller.SongViewController">
    <children>
       <AnchorPane layoutX="77.0" layoutY="292.0" prefHeight="50.0" prefWidth="60.0" styleClass="bottom_bar_color" stylesheets="@design.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -346,7 +340,7 @@
             <TableColumn fx:id="cTime" minWidth="0.0" prefWidth="90.0" text="Time" />
          </columns>
       </TableView>
-      <TableView fx:id="pListTable" layoutX="10.0" layoutY="170.0" prefHeight="350.0" prefWidth="260.0">
+      <TableView fx:id="sipListTable" layoutX="10.0" layoutY="170.0" prefHeight="350.0" prefWidth="260.0">
          <columns>
             <TableColumn fx:id="cSongId" prefWidth="60.0" text="Id" />
             <TableColumn fx:id="cSongTitle" prefWidth="200.0" text="Title" />

@@ -41,6 +41,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
     public TableColumn <Song, String>cSongTitle;
     public TableColumn <Song, Integer>cSongId;
+    public TableView <Song> sipListTable;
     @FXML
     private TableColumn<AllPlaylists, Integer> cPListsSongs;
     @FXML
@@ -55,8 +56,6 @@ public class SongViewController extends ControllerManager implements Initializab
     private TableColumn<Song, String> cTitle;
     @FXML
     private TableView<Song> songTable;
-    @FXML
-    private TableView<Song>  pListTable;
     @FXML
     private Label playedSong;
     @FXML
@@ -150,7 +149,7 @@ public class SongViewController extends ControllerManager implements Initializab
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
         cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
 
-        pListTable.setItems(songsInPlaylistModel.getObservableSongs());
+        sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
         cSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
 
 
@@ -425,7 +424,7 @@ public class SongViewController extends ControllerManager implements Initializab
     public Song getSelectedSongFromPlaylist()
     {
         Song selectedSongFromPlaylist;
-        selectedSongFromPlaylist = pListTable.getSelectionModel().getSelectedItem();
+        selectedSongFromPlaylist = sipListTable.getSelectionModel().getSelectedItem();
         return selectedSongFromPlaylist;
     }
 
@@ -523,12 +522,12 @@ public class SongViewController extends ControllerManager implements Initializab
     }
 
     public void deleteFromPlaylist(ActionEvent actionEvent)  {
-        Song song = pListTable.getSelectionModel().getSelectedItem();
+        Song song = sipListTable.getSelectionModel().getSelectedItem();
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
 
         try {
             if(getSelectedSongFromPlaylist() !=null) {
-                songsInPlaylistModel.deleteSongFromPlaylist(getSelectedplaylist(), getSelectedSong());
+                songsInPlaylistModel.deleteSongFromPlaylist(getSelectedplaylist(), getSelectedSongFromPlaylist());
 
             }
 
