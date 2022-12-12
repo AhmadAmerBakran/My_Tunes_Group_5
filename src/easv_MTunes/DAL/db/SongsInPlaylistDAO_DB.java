@@ -28,7 +28,7 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
             //Create an SQL command
             String sql = "SELECT *\n" +
                     "            FROM AllPlaylists pl, SongsInPlaylist sip, Song s \n" +
-                    "            WHERE pl.Id = sip.PlaylistID and sip.PlaylistID "+ playlistNumber +
+                    "            WHERE pl.Id = sip.PlaylistID and sip.PlaylistID =" + playlistNumber +
                     "            AND s.Id = sip.SongID;";
 
             //Create some statements
@@ -92,11 +92,12 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
 
         try (Connection conn = dbConnector.getConnection()) {
 
-            String sql = "DELETE FROM SongsInPlaylist WHERE SongID = (?);";
+            String sql = "DELETE FROM SongsInPlaylist WHERE SongID = (?) AND PlaylistID = (?);";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setInt(1, song.getId());
+            stmt.setInt(2, song.getId());
+            stmt.setInt(1, playlist.getPlaylistId());
 
             stmt.executeUpdate();
         }

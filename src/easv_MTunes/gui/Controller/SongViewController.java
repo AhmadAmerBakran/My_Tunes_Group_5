@@ -44,6 +44,7 @@ public class SongViewController extends ControllerManager implements Initializab
     public TableColumn <Song, Integer>cSongId;
     @FXML
     public TableView <Song> sipListTable;
+    public TableColumn<AllPlaylists, Integer> cPListsId;
     @FXML
     private TableColumn<AllPlaylists, Integer> cPListsSongs;
     @FXML
@@ -82,11 +83,15 @@ public class SongViewController extends ControllerManager implements Initializab
     private TimerTask task;
     private boolean playClicked = true;
     private boolean muteClicked = true;
+    private int playlistNumber;
 
 
     private SongModel songModel;
     private SongsInPlaylistModel songsInPlaylistModel;
     private AllPlaylistsModel allPlaylistsModel;
+    public Song selectedSong;
+    public AllPlaylists selectedPlaylist;
+
 
     public SongViewController() {
         try {
@@ -114,9 +119,9 @@ public class SongViewController extends ControllerManager implements Initializab
         volumeSlider();
         timeSlider();
 
-        sipListTable.setOnMouseClicked(event -> {
+        pListsTable.setOnMouseClicked(event -> {
             AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-            int playlistNumber = selectedPlaylist.getPlaylistId();
+            playlistNumber = selectedPlaylist.getPlaylistId();
 
             try{
                 songsInPlaylistModel.showList(playlistNumber);
@@ -160,6 +165,7 @@ public class SongViewController extends ControllerManager implements Initializab
     }
     public void showAllSongsAndPlaylists()
     {
+
         songTable.setItems(songModel.getObservableSongs());
         cTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         cArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
@@ -168,6 +174,7 @@ public class SongViewController extends ControllerManager implements Initializab
         pListsTable.setItems(allPlaylistsModel.getObservableAllPlaylists());
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
         cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
+        cPListsId.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistId"));
 
         sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
         cSongTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
@@ -529,18 +536,27 @@ public class SongViewController extends ControllerManager implements Initializab
     }
 
     public void deleteFromPlaylist(ActionEvent actionEvent)  {
-        Song song = sipListTable.getSelectionModel().getSelectedItem();
-        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        selectedSong = sipListTable.getSelectionModel().getSelectedItem();
+        selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        
+
 
         try {
             if(getSelectedSongFromPlaylist() !=null) {
                 songsInPlaylistModel.deleteSongFromPlaylist(getSelectedplaylist(), getSelectedSongFromPlaylist());
-
+                refreshSongInPlaylist();
             }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void refreshSongInPlaylist() throws Exception {
+        SongsInPlaylistModel updatedSongToPlaylistModel = new SongsInPlaylistModel();
+        songsInPlaylistModel = updatedSongToPlaylistModel;
+        sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
+        songsInPlaylistModel.showList(playlistNumber);
     }
 
     public void addSongToPlaylist(ActionEvent actionEvent) {
@@ -553,9 +569,5 @@ public class SongViewController extends ControllerManager implements Initializab
         } catch (Exception e) {
 
     }
-}
-   // public void showSongInPlaylist (AllPlaylists selectedplaylist) {
-     //   int playlistId = selectedplaylist.getPlaylistId();
-
-    //}
+    }
 }

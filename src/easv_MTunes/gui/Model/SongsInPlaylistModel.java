@@ -21,7 +21,7 @@ public class SongsInPlaylistModel {
         songsToBeViewed = FXCollections.observableArrayList();
 
 
-        songsToBeViewed.addAll(songsInPlaylistManager.getAllPlaylistSongs(77));
+        songsToBeViewed.addAll(songsInPlaylistManager.getAllPlaylistSongs(0));
     }
     public AllPlaylists getSelectedPlaylist()
     {
@@ -43,14 +43,14 @@ public class SongsInPlaylistModel {
     }
     public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
         songsInPlaylistManager.deleteSongFromPlaylist(playlists, song);
-        songsToBeViewed.remove(song);
+        //songsToBeViewed.remove(song);
     }
 
     public void showList(int playlistNumber) throws Exception {
         //Update the listview
         songsToBeViewed.clear();
-
         songsToBeViewed.addAll(songsInPlaylistManager.getAllPlaylistSongs(playlistNumber));
+
     }
 
 
