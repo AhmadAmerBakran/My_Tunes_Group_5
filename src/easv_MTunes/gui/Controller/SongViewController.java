@@ -538,13 +538,13 @@ public class SongViewController extends ControllerManager implements Initializab
     public void deleteFromPlaylist(ActionEvent actionEvent)  {
         selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-        
+
 
 
         try {
             if(getSelectedSongFromPlaylist() !=null) {
-                songsInPlaylistModel.deleteSongFromPlaylist(getSelectedplaylist(), getSelectedSongFromPlaylist());
-                refreshSongInPlaylist();
+                songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong);
+                //refreshSongInPlaylist();
             }
 
         } catch (Exception e) {
@@ -552,12 +552,12 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-    public void refreshSongInPlaylist() throws Exception {
+    /*public void refreshSongInPlaylist() throws Exception {
         SongsInPlaylistModel updatedSongToPlaylistModel = new SongsInPlaylistModel();
         songsInPlaylistModel = updatedSongToPlaylistModel;
         sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
         songsInPlaylistModel.showList(playlistNumber);
-    }
+    }*/
 
     public void addSongToPlaylist(ActionEvent actionEvent) {
 

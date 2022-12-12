@@ -43,7 +43,7 @@ public class SongsInPlaylistModel {
     }
     public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
         songsInPlaylistManager.deleteSongFromPlaylist(playlists, song);
-        //songsToBeViewed.remove(song);
+        songsToBeViewed.remove(song);
     }
 
     public void showList(int playlistNumber) throws Exception {
