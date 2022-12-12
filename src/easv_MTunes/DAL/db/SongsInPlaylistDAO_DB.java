@@ -9,6 +9,7 @@ import easv_MTunes.DAL.ISongsInPlaylistDataAccess;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
     private DBConnector dbConnector;
@@ -17,7 +18,7 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         dbConnector = new DBConnector();
     }
 
-    public ArrayList<Song> getAllPlaylistSongs() throws SQLException {
+    public ArrayList<Song> getAllPlaylistSongs(int playlistNumber) throws SQLException {
         //Create and return songs
         ArrayList<Song> allSongList = new ArrayList<>();
 
@@ -27,9 +28,8 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
             //Create an SQL command
             String sql = "SELECT *\n" +
                     "            FROM AllPlaylists pl, SongsInPlaylist sip, Song s \n" +
-                    "            WHERE pl.Id = sip.PlaylistID\n" +
-                    "            AND s.Id = sip.SongID\n" +
-                    "            ORDER BY pl.Name";
+                    "            WHERE pl.Id = sip.PlaylistID and sip.PlaylistID "+ playlistNumber +
+                    "            AND s.Id = sip.SongID;";
 
             //Create some statements
             Statement statement = connection.createStatement();
@@ -106,5 +106,4 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         }
 
     }
-
-    }
+}

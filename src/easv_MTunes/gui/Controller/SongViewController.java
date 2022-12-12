@@ -30,6 +30,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -41,6 +42,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
     public TableColumn <Song, String>cSongTitle;
     public TableColumn <Song, Integer>cSongId;
+    @FXML
     public TableView <Song> sipListTable;
     @FXML
     private TableColumn<AllPlaylists, Integer> cPListsSongs;
@@ -100,12 +102,29 @@ public class SongViewController extends ControllerManager implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            allPlaylistsModel = new AllPlaylistsModel();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        sipListTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {AllPlaylists p = allPlaylistsModel.getSelectedPlaylist(); sipListTable.getItems().addAll(songsInPlaylistModel.getObservableSongs());});
-        //showAllSongsAndPlaylists();
+        //sipListTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {AllPlaylists p = allPlaylistsModel.getSelectedPlaylist(); sipListTable.getItems().addAll(songsInPlaylistModel.getObservableSongs());});
+        showAllSongsAndPlaylists();
         volumeSlider();
         timeSlider();
+
+        sipListTable.setOnMouseClicked(event -> {
+            AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+            int playlistNumber = selectedPlaylist.getPlaylistId();
+
+            try{
+                songsInPlaylistModel.showList(playlistNumber);
+            }
+            catch(Exception e){
+                throw new RuntimeException(e);
+            }
+        });
 
     }
     @Override
@@ -410,8 +429,7 @@ public class SongViewController extends ControllerManager implements Initializab
         return selectedPlaylist;
     }
 
-    public Song getSelectedSongFromPlaylist()
-    {
+    public Song getSelectedSongFromPlaylist(){
         Song selectedSongFromPlaylist;
         selectedSongFromPlaylist = sipListTable.getSelectionModel().getSelectedItem();
         return selectedSongFromPlaylist;
@@ -535,4 +553,9 @@ public class SongViewController extends ControllerManager implements Initializab
         } catch (Exception e) {
 
     }
-}}
+}
+   // public void showSongInPlaylist (AllPlaylists selectedplaylist) {
+     //   int playlistId = selectedplaylist.getPlaylistId();
+
+    //}
+}

@@ -12,8 +12,8 @@ public class SongsInPlaylistManager {
     public SongsInPlaylistManager() {
         songsInPlaylistDAO_DB = new SongsInPlaylistDAO_DB();
     }
-    public List<Song> getAllPlaylistSongs(String playlistName) throws Exception {
-        return songsInPlaylistDAO_DB.getAllPlaylistSongs();
+    public List<Song> getAllPlaylistSongs(int playlistNumber) throws Exception {
+        return songsInPlaylistDAO_DB.getAllPlaylistSongs(playlistNumber);
     }
     public Song addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
         return songsInPlaylistDAO_DB.addSongToPlaylist(playlist,song);
@@ -21,4 +21,5 @@ public class SongsInPlaylistManager {
     public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
         songsInPlaylistDAO_DB.deleteSongFromPlaylist(playlists, song);
     }
+
 }
