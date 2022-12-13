@@ -8,7 +8,7 @@ public class AllPlaylists {
     private int playlistSongsNumber;
     private AllPlaylists playlist;
 
-    public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber){
+    public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber) {
 
         this.playlistName = playlistName;
         //playlistSongsNumber = playlist.getPlaylistSongs().size();
@@ -39,7 +39,13 @@ public class AllPlaylists {
         return playlist;
     }
 
-    public void setPlaylist(AllPlaylists playlist) {
-        this.playlist = playlist;
+    @Override
+    public String toString() {
+        return "AllPlaylists{" +
+                "playlistName='" + playlistName + '\'' +
+                ", playlistId=" + playlistId +
+                ", playlistSongsNumber=" + playlistSongsNumber +
+                ", playlist=" + playlist +
+                '}';
     }
 }

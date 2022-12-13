@@ -15,11 +15,14 @@ public class SongsInPlaylistManager {
     public List<Song> getAllPlaylistSongs(int playlistNumber) throws Exception {
         return songsInPlaylistDAO_DB.getAllPlaylistSongs(playlistNumber);
     }
-    public Song addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
-        return songsInPlaylistDAO_DB.addSongToPlaylist(playlist,song);
+    public void addSongToPlaylist(AllPlaylists playlist, Song song, int size) throws Exception {
+        songsInPlaylistDAO_DB.addSongToPlaylist(playlist,song, size);
     }
-    public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
-        songsInPlaylistDAO_DB.deleteSongFromPlaylist(playlists, song);
+    public void deleteSongFromPlaylist(AllPlaylists selectedPlaylists, Song selectedSong, int selectedRank) throws Exception {
+        songsInPlaylistDAO_DB.deleteSongFromPlaylist(selectedPlaylists, selectedSong, selectedRank);
+    }
+    public int getRank(int songID, int playlistID){
+        return songsInPlaylistDAO_DB.getRank(songID, playlistID);
     }
 
 }

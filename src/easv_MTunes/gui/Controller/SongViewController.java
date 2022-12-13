@@ -535,39 +535,52 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-    public void deleteFromPlaylist(ActionEvent actionEvent)  {
+    //Delete song from playlist
+    public void deleteFromPlaylist(ActionEvent actionEvent) throws Exception {
         selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        //Get needed information and assign them
+        int selectedSongID = selectedSong.getId();
+        int selectedPlaylistID = selectedPlaylist.getPlaylistId();
+        int deletedSong = songsInPlaylistModel.getRank(selectedSongID, selectedPlaylistID);
+        songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong, deletedSong);
+            //refreshSongInPlaylist();
+        System.out.println(deletedSong);
 
 
 
-        try {
-            if(getSelectedSongFromPlaylist() !=null) {
-                songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong);
-                //refreshSongInPlaylist();
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    /*public void refreshSongInPlaylist() throws Exception {
-        SongsInPlaylistModel updatedSongToPlaylistModel = new SongsInPlaylistModel();
-        songsInPlaylistModel = updatedSongToPlaylistModel;
+    public void refreshSongInPlaylist() throws Exception {
+        songsInPlaylistModel = new SongsInPlaylistModel();
         sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
         songsInPlaylistModel.showList(playlistNumber);
-    }*/
+    }
 
-    public void addSongToPlaylist(ActionEvent actionEvent) {
+    //Adds the selected song to the selected playlist
+    public void addSongToPlaylist(ActionEvent actionEvent) throws Exception {
 
-        Song song = songTable.getSelectionModel().getSelectedItem();
-        AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-        try {
+            selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+            int sizeOfPlaylist = songsInPlaylistModel.getObservableSongs().size();
+            Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
+        if (sizeOfPlaylist != 0) {
+            Song newSong = sipListTable.getItems().get(sizeOfPlaylist-1);
+            int lastSongID = newSong.getId();
+            int selectedPlaylistID = selectedPlaylist.getPlaylistId();
+            int highestRank = songsInPlaylistModel.getRank(lastSongID, selectedPlaylistID);
+
+            songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, selectedSong, highestRank + 1);
+        }
+        else {
+            songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, selectedSong, 1);
+        }
+
+        /*try {
             if(selectedPlaylist !=null)
                 songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, song);
         } catch (Exception e) {
 
-    }
+    }*/
     }
 }

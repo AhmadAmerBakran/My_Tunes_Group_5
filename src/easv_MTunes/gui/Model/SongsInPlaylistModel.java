@@ -35,15 +35,18 @@ public class SongsInPlaylistModel {
     }
 
 
-    public void addSongToPlaylist(AllPlaylists playlist, Song song) throws Exception {
-        songsInPlaylistManager.addSongToPlaylist(playlist, song);
+    public void addSongToPlaylist(AllPlaylists playlist, Song song, int size) throws Exception {
+        songsInPlaylistManager.addSongToPlaylist(playlist, song, size);
         songsToBeViewed.add(song);
 
 
     }
-    public void deleteSongFromPlaylist(AllPlaylists playlists, Song song) throws Exception {
-        songsInPlaylistManager.deleteSongFromPlaylist(playlists, song);
-        songsToBeViewed.remove(song);
+    public void deleteSongFromPlaylist(AllPlaylists selectedPlaylist, Song selectedSong, int selectedRank) throws Exception {
+        songsInPlaylistManager.deleteSongFromPlaylist(selectedPlaylist, selectedSong,selectedRank);
+    }
+
+    public int getRank(int songID, int playlistID){
+        return songsInPlaylistManager.getRank(songID, playlistID);
     }
 
     public void showList(int playlistNumber) throws Exception {
