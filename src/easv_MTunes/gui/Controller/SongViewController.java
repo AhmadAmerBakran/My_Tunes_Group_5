@@ -537,19 +537,19 @@ public class SongViewController extends ControllerManager implements Initializab
 
     //Delete song from playlist
     public void deleteFromPlaylist(ActionEvent actionEvent) throws Exception {
+        //selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
         //Get needed information and assign them
         int selectedSongID = selectedSong.getId();
         int selectedPlaylistID = selectedPlaylist.getPlaylistId();
-        int deletedSong = songsInPlaylistModel.getRank(selectedSongID, selectedPlaylistID);
-        songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong, deletedSong);
-            //refreshSongInPlaylist();
-        System.out.println(deletedSong);
+        int deletedSongRank = songsInPlaylistModel.getRank(selectedSongID, selectedPlaylistID);
+        songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong, deletedSongRank);
+            refreshSongInPlaylist();
 
 
+        }
 
-    }
 
     public void refreshSongInPlaylist() throws Exception {
         songsInPlaylistModel = new SongsInPlaylistModel();

@@ -37,8 +37,17 @@ public class Song {
         this.songFile = songFile;
     }
 
+    public String getFileToString(File songFile){
+        String songFileString = songFile.toString();
+        return songFileString;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

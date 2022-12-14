@@ -30,8 +30,8 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
             //Create an SQL command
             String sql = "SELECT *\n" +
                     "            FROM AllPlaylists pl, SongsInPlaylist sip, Song s \n" +
-                    "            WHERE pl.Id = sip.PlaylistID and sip.PlaylistID =" + playlistNumber +
-                    "            AND s.Id = sip.SongID;";
+                    "            WHERE s.Id = sip.SongID and sip.PlaylistID =" + playlistNumber +
+                    "            AND pl.Id = sip.PlaylistID;";
 
             //Create some statements
             Statement statement = connection.createStatement();
@@ -42,9 +42,8 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {
-                    int id = resultSet.getInt("Id");
+                    int id = resultSet.getInt("SongID");
                     String title = resultSet.getString("Title");
-
 
 
                     Song song = new Song(id, title);
@@ -112,13 +111,15 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(songID);
         return rank;
+
 
     }
 
     public void deleteSongFromPlaylist(AllPlaylists selectedPlaylist, Song selectedSong, int selectedRank) throws Exception {
 
-        String sql = "DELETE FROM SongsInPlaylist WHERE SongID = (?) AND PlaylistID = (?) and Rank = (?);";
+        String sql = "DELETE FROM SongsInPlaylist WHERE SongsInPlaylist.SongID = (?) AND SongsInPlaylist.PlaylistID = (?) and SongsInPlaylist.Rank = (?);";
         try (Connection conn = dbConnector.getConnection()) {
 
             PreparedStatement stmt = conn.prepareStatement(sql);
