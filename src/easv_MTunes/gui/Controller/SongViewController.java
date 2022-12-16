@@ -372,11 +372,14 @@ public class SongViewController extends ControllerManager implements Initializab
             mediaPlayer.setVolume(slideVolume.getValue() * 0.01);
         }
         getCurrentTimeSlider();
-        //playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
+        if (songInSonglistSelected == true){
+            playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
+        }
+        if (songInPlaylistSelected==true){
         Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
         if (selectedSongInPlaylist != null){
-            //String path = selectedSongInPlaylist.getSongPath(selectedSongInPlaylist.getSongFile());
             playedSong.setText(songsInPlaylistModel.getObservableSongs().get(songNumber).toString().substring(7));
+        }
         }
 
 
