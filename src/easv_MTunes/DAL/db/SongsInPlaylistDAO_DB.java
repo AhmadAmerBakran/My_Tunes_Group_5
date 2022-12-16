@@ -44,9 +44,12 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
                 {
                     int id = resultSet.getInt("SongID");
                     String title = resultSet.getString("Title");
+                    String artist = resultSet.getString("Artist");
+                    String songPath = resultSet.getString("Path");
+                    File songFile = new File(songPath);
 
 
-                    Song song = new Song(id, title);
+                    Song song = new Song(id, title, artist, songFile);
                     allSongList.add(song);
                 }
             }

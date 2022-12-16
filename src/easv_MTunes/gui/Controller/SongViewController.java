@@ -91,7 +91,8 @@ public class SongViewController extends ControllerManager implements Initializab
     private AllPlaylistsModel allPlaylistsModel;
     public Song selectedSong;
     public AllPlaylists selectedPlaylist;
-
+    private boolean songInPlaylistSelected = false;
+    private boolean songInSonglistSelected = false;
 
     public SongViewController() {
         try {
@@ -114,7 +115,6 @@ public class SongViewController extends ControllerManager implements Initializab
         }
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        //sipListTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {AllPlaylists p = allPlaylistsModel.getSelectedPlaylist(); sipListTable.getItems().addAll(songsInPlaylistModel.getObservableSongs());});
         showAllSongsAndPlaylists();
         volumeSlider();
         timeSlider();
@@ -129,6 +129,44 @@ public class SongViewController extends ControllerManager implements Initializab
             catch(Exception e){
                 throw new RuntimeException(e);
             }
+        });
+
+        sipListTable.setOnMouseClicked(event -> {
+
+            mediaPlayer.stop();
+            if(playClicked == false){
+                Image pausing = new Image("/easv_MTunes/images/play_96px.png");
+                imgPlay.setImage(pausing);
+                playClicked = true;}
+
+            songInSonglistSelected = false;
+            songInPlaylistSelected = true;
+
+
+            Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
+            songNumber = songsInPlaylistModel.getObservableSongs().indexOf(selectedSongInPlaylist);
+
+            media = new Media(songsInPlaylistModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        });
+
+        songTable.setOnMouseClicked(event -> {
+
+            mediaPlayer.stop();
+            if(playClicked == false){
+                Image pausing = new Image("/easv_MTunes/images/play_96px.png");
+                imgPlay.setImage(pausing);
+                playClicked = true;
+            }
+
+            songInSonglistSelected = true;
+            songInPlaylistSelected = false;
+
+            Song selectedSongInSonglist = songTable.getSelectionModel().getSelectedItem();
+            songNumber = songModel.getObservableSongs().indexOf(selectedSongInSonglist);
+
+            media = new Media (songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
         });
 
     }
@@ -187,20 +225,32 @@ public class SongViewController extends ControllerManager implements Initializab
 
     public void playNext(ActionEvent actionEvent) {
 
-        if(songNumber < songModel.getObservableSongs().size()-1)
+        if(songInSonglistSelected == true) {
+            if (songNumber < songModel.getObservableSongs().size() - 1) {
+                mediaPlayer.stop();
+                songNumber++;
+                playNextOrPrev();
+                playFunctions();
 
-        {
-            mediaPlayer.stop();
-            songNumber++;
-            playNextOrPrev();
-            playFunctions();
-
-        }else
-        {
-            mediaPlayer.stop();
-            songNumber = 0;
-            playNextOrPrev();
-            playFunctions();
+            } else {
+                mediaPlayer.stop();
+                songNumber = 0;
+                playNextOrPrev();
+                playFunctions();
+            }
+        }
+        else if(songInPlaylistSelected == true){
+            if (songNumber < songsInPlaylistModel.getObservableSongs().size()-1){
+                mediaPlayer.stop();
+                songNumber++;
+                playNextOrPrev();
+                playFunctions();
+            } else {
+                mediaPlayer.stop();
+                songNumber = 0;
+                playNextOrPrev();
+                playFunctions();
+            }
         }
 
     }
@@ -216,7 +266,12 @@ public class SongViewController extends ControllerManager implements Initializab
         } else
         {
             mediaPlayer.stop();
-            songNumber = songModel.getObservableSongs().size()-1;
+            if (songInSonglistSelected) {
+                songNumber = songModel.getObservableSongs().size()-1;
+            }
+            if (songInPlaylistSelected) {
+                songNumber = songsInPlaylistModel.getObservableSongs().size()-1;
+            }
             playNextOrPrev();
             playFunctions();
         }
@@ -264,7 +319,12 @@ public class SongViewController extends ControllerManager implements Initializab
     }
     public void playNextOrPrev()
     {
-        media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+        if (songInSonglistSelected == true){
+            media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+        }
+        else if(songInPlaylistSelected == true){
+            media = new Media(songsInPlaylistModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+        }
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         Image playing = new Image("/easv_MTunes/images/pause_button_96px.png");
@@ -312,8 +372,12 @@ public class SongViewController extends ControllerManager implements Initializab
             mediaPlayer.setVolume(slideVolume.getValue() * 0.01);
         }
         getCurrentTimeSlider();
-        playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
-
+        //playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
+        Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
+        if (selectedSongInPlaylist != null){
+            //String path = selectedSongInPlaylist.getSongPath(selectedSongInPlaylist.getSongFile());
+            playedSong.setText(songsInPlaylistModel.getObservableSongs().get(songNumber).toString().substring(7));
+        }
 
 
     }

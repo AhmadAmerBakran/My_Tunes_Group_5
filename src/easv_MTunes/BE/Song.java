@@ -2,6 +2,7 @@ package easv_MTunes.BE;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Song {
     private int id;
@@ -16,10 +17,10 @@ public class Song {
         this.artist = artist;
 
     }
-    public  Song(int id, String title){
+    /*public  Song(int id, String title){
         this.id = id;
         this.title = title;
-    }
+    }*/
 
     public String getArtist() {
         return artist;
@@ -37,10 +38,6 @@ public class Song {
         this.songFile = songFile;
     }
 
-    public String getFileToString(File songFile){
-        String songFileString = songFile.toString();
-        return songFileString;
-    }
 
     public int getId() {
         return id;
