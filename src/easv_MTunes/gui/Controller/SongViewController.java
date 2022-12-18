@@ -94,6 +94,7 @@ public class SongViewController extends ControllerManager implements Initializab
     private boolean songInPlaylistSelected = false;
     private boolean songInSonglistSelected = false;
 
+    //Constructor for SongViewController
     public SongViewController() {
         try {
             songModel = new SongModel();
@@ -105,20 +106,23 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            //Set allPlaylistModel variable to a new AllPlaylistModel.
             allPlaylistsModel = new AllPlaylistsModel();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        //Sets the mediaPlayer variable
         media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+
         showAllSongsAndPlaylists();
         volumeSlider();
         timeSlider();
 
+        //When a playlist is selected in the pListsTable, show the songs that are in the playlist in the sipListTable
         pListsTable.setOnMouseClicked(event -> {
             AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
             playlistNumber = selectedPlaylist.getPlaylistId();
@@ -131,9 +135,11 @@ public class SongViewController extends ControllerManager implements Initializab
             }
         });
 
+        //This is used to let the mediaPlayer know that a song in the sipListTable is selected so that it can play that song.
         sipListTable.setOnMouseClicked(event -> {
-
+            //Stops the music
             mediaPlayer.stop();
+
             if(playClicked == false){
                 Image pausing = new Image("/easv_MTunes/images/play_96px.png");
                 imgPlay.setImage(pausing);
@@ -145,14 +151,16 @@ public class SongViewController extends ControllerManager implements Initializab
 
             Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
             songNumber = songsInPlaylistModel.getObservableSongs().indexOf(selectedSongInPlaylist);
-
+            //Sets the mediaPlayer to the selected song
             media = new Media(songsInPlaylistModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         });
 
+        //This is used to let the mediaPlayer know that a song in the songTable is selected so that it can play that song.
         songTable.setOnMouseClicked(event -> {
-
+            //Stops the music
             mediaPlayer.stop();
+
             if(playClicked == false){
                 Image pausing = new Image("/easv_MTunes/images/play_96px.png");
                 imgPlay.setImage(pausing);
@@ -164,7 +172,7 @@ public class SongViewController extends ControllerManager implements Initializab
 
             Song selectedSongInSonglist = songTable.getSelectionModel().getSelectedItem();
             songNumber = songModel.getObservableSongs().indexOf(selectedSongInSonglist);
-
+            //Sets the mediaPlayer to the selected song
             media = new Media (songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         });
@@ -175,6 +183,7 @@ public class SongViewController extends ControllerManager implements Initializab
         songModel = getModel().getSongModel();
         allPlaylistsModel = getModel().getAllPlaylistsModel();
         showAllSongsAndPlaylists();
+        //Search function.
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 songModel.searchSong(newValue);
@@ -184,6 +193,10 @@ public class SongViewController extends ControllerManager implements Initializab
         });
 
     }
+    /*play is used when you click the play or the pause button in the MyTunesView
+    If the play button is clicked the method plays the music.
+    If the pause button is clicked the method pauses the music
+     */
     public void play(ActionEvent actionEvent) {
         if(playClicked)
         {
@@ -222,7 +235,9 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
 
-
+    /*playNext is used when you click the next button in the MyTunesView window.
+    The method plays the song that comes after the song that is currently playing.
+     */
     public void playNext(ActionEvent actionEvent) {
 
         if(songInSonglistSelected == true) {
@@ -255,7 +270,9 @@ public class SongViewController extends ControllerManager implements Initializab
 
     }
 
-
+    /*playPrevious is used when you click the previous button in the MyTunesView window.
+    The method plays the song that comes before the song that is currently playing.
+     */
     public void playPrevious(ActionEvent actionEvent) {
         if(songNumber > 0)
         {
@@ -277,7 +294,9 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-
+    /*playPrevious is used when you click the stop button in the MyTunesView window.
+    The method plays the song that comes before the song that is currently playing.
+     */
     public void stopPlaying(ActionEvent actionEvent) {
         mediaPlayer.seek(Duration.seconds(0));
         mediaPlayer.stop();
@@ -289,7 +308,7 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-
+    //getCurrentTimeSlider gets the current time of the song for the slider
     public void getCurrentTimeSlider()
     {
         timer = new Timer();
@@ -305,7 +324,7 @@ public class SongViewController extends ControllerManager implements Initializab
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
-
+    //bindCurrentTimeLabel binds the current time that a song has been playing
     private void bindCurrentTimeLabel()
     {
         lblStart.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
@@ -317,6 +336,8 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     }
+
+    //playNextOrPrev is used to get the musicPlayer to play the next or previous song.
     public void playNextOrPrev()
     {
         if (songInSonglistSelected == true){
@@ -332,6 +353,7 @@ public class SongViewController extends ControllerManager implements Initializab
         playClicked = false;
     }
 
+    //bindTotalTimeLabel binds the total duration of a song.
     private void bindTotalTimeLabel()
     {
         lblEnd.textProperty().bind(Bindings.createStringBinding(new Callable<String>() {
@@ -343,6 +365,8 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     }
+
+    //getTime calculates the time of a song so hours, minutes and seconds gets written in the right order.
     private String getTime(Duration time)
     {
 
@@ -360,6 +384,7 @@ public class SongViewController extends ControllerManager implements Initializab
         else return String.format("%02d:%02d", minutes, seconds);
     }
 
+    //playFunktions helps with playing the song by setting the volume and changes the playedSong text field to the current song playing
     private void playFunctions()
     {
         bindCurrentTimeLabel();
@@ -384,6 +409,8 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     }
+
+    //volumeSlider is a method that uses a slider to change the volume of the current song that is playing.
     private void volumeSlider()
     {
         slideVolume.valueProperty().addListener(new ChangeListener<Number>() {
@@ -397,6 +424,8 @@ public class SongViewController extends ControllerManager implements Initializab
         });
 
     }
+
+    //timeSlider is a method that uses a slider to go back or forward in a song.
     private void timeSlider()
     {
 
@@ -423,6 +452,9 @@ public class SongViewController extends ControllerManager implements Initializab
         });
     }
 
+    /*muteVolume is used when the mute button is clicked in the MyTunesView window.
+    The method mutes the volume of the application.
+     */
     public void muteVolume(ActionEvent actionEvent) {
         if(muteClicked)
         {
@@ -441,8 +473,12 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
+    /*editSong is used when the edit button is clicked
+    It is used to open the songCrud window and to set the selectedSong
+     */
     public void editSong(ActionEvent actionEvent) throws IOException {
         Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+        //If there is no selected song then alert the user that they need to choose a song to edit it.
         if(selectedSong==null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Needed Info");
@@ -469,6 +505,9 @@ public class SongViewController extends ControllerManager implements Initializab
         dialogWindow.showAndWait();}
     }
 
+    /*addSong is used when you click the add new song button
+    The method is used to open the songCrud window
+     */
     public void addSong(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/SongCrud.fxml"));
@@ -490,12 +529,16 @@ public class SongViewController extends ControllerManager implements Initializab
         dialogWindow.showAndWait();
 
     }
+
+    //Gets the selected song
     public Song getSelectedSong()
     {
         Song song;
         song = songTable.getSelectionModel().getSelectedItem();
         return song;
     }
+
+    //Gets the selected playlist
     public AllPlaylists getSelectedplaylist()
     {
         AllPlaylists selectedPlaylist;
@@ -503,12 +546,9 @@ public class SongViewController extends ControllerManager implements Initializab
         return selectedPlaylist;
     }
 
-    public Song getSelectedSongFromPlaylist(){
-        Song selectedSongFromPlaylist;
-        selectedSongFromPlaylist = sipListTable.getSelectionModel().getSelectedItem();
-        return selectedSongFromPlaylist;
-    }
-
+    /*deleteSong is used when the delete button is clicked
+    The method deletes the selected song from the songList.
+     */
     public void deleteSong(ActionEvent actionEvent) throws Exception {
         Song selectedSong = songTable.getSelectionModel().getSelectedItem();
         if(selectedSong==null){
@@ -528,7 +568,7 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-
+    //addPlaylist opens the MyTunesView window when the add playlist button is clicked.
     public void addPlaylist(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/easv_MTunes/gui/View/PlaylistsView.fxml"));
@@ -550,6 +590,9 @@ public class SongViewController extends ControllerManager implements Initializab
         dialogWindow.showAndWait();
     }
 
+    /*editPlaylist opens the MyTunesView window when the edit playlist button is clicked.
+    Only works if a playlist is selected.
+     */
     public void editPlaylist(ActionEvent actionEvent) throws IOException {
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
         if(selectedPlaylist==null){
@@ -579,6 +622,9 @@ public class SongViewController extends ControllerManager implements Initializab
 
     }
 
+    /*deletePlaylist is used when the delete playlist button is clicked
+    The method deletes the selected playlist
+     */
     public void deletePlaylist(ActionEvent actionEvent) {
         AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
         if(selectedPlaylist==null){
@@ -602,14 +648,16 @@ public class SongViewController extends ControllerManager implements Initializab
         }
     }
 
-    //Delete song from playlist
+    /*deleteFromPlaylist is used when the delete from playlist button is clicked
+    The method deletes the selected playlist.
+     */
     public void deleteFromPlaylist(ActionEvent actionEvent) throws Exception {
-        //selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedSong = sipListTable.getSelectionModel().getSelectedItem();
         selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
         //Get needed information and assign them
         int selectedSongID = selectedSong.getId();
         int selectedPlaylistID = selectedPlaylist.getPlaylistId();
+        //deletedSongRank is used so that the method does not delete every song with the same name and id.
         int deletedSongRank = songsInPlaylistModel.getRank(selectedSongID, selectedPlaylistID);
         songsInPlaylistModel.deleteSongFromPlaylist(selectedPlaylist, selectedSong, deletedSongRank);
             refreshSongInPlaylist();
@@ -617,14 +665,16 @@ public class SongViewController extends ControllerManager implements Initializab
 
         }
 
-
+    //refreshSongInPlaylist is to update the sipListTable after a change is made.
     public void refreshSongInPlaylist() throws Exception {
         songsInPlaylistModel = new SongsInPlaylistModel();
         sipListTable.setItems(songsInPlaylistModel.getObservableSongs());
         songsInPlaylistModel.showList(playlistNumber);
     }
 
-    //Adds the selected song to the selected playlist
+    /*addSongToPlaylist is used when the add song to playlist button is clicked.
+    The method adds the selected song to the selected playlist
+     */
     public void addSongToPlaylist(ActionEvent actionEvent) throws Exception {
 
             selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
@@ -642,12 +692,5 @@ public class SongViewController extends ControllerManager implements Initializab
         else {
             songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, selectedSong, 1);
         }
-
-        /*try {
-            if(selectedPlaylist !=null)
-                songsInPlaylistModel.addSongToPlaylist(selectedPlaylist, song);
-        } catch (Exception e) {
-
-    }*/
     }
 }
