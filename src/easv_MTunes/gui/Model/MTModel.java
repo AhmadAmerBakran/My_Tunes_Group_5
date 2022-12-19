@@ -11,19 +11,31 @@ public class MTModel {
         allPlaylistsModel = new AllPlaylistsModel();
     }
 
+    /**
+     * Returns song model
+     */
     public SongModel getSongModel()
     {
         return songModel;
     }
 
+    /**
+     * Setter for the songModel
+     */
     public void setSongModel(SongModel songModel) {
         this.songModel = songModel;
     }
 
+    /**
+     * Returns the allPlaylistsModel
+     */
     public AllPlaylistsModel getAllPlaylistsModel() {
         return allPlaylistsModel;
     }
 
+    /**
+     * Setter for the allPlaylistsModel
+     */
     public void setAllPlaylistsModel(AllPlaylistsModel allPlaylistsModel) {
         this.allPlaylistsModel = allPlaylistsModel;
     }

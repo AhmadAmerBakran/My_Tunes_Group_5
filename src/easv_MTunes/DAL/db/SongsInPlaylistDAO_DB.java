@@ -58,11 +58,12 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
     }
 
     public void addSongToPlaylist(AllPlaylists selectedPlaylist, Song selectedSong, int size) throws Exception {
-        // Dynamic SQL
-
+        // Create an SQL command
         String sql = "INSERT INTO [SongsInPlaylist] VALUES (?,?,?);";
 
+        //Get connection to database
         try (Connection connection = dbConnector.getConnection()) {
+            //Create a statement
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             int selectedPlaylistID = selectedPlaylist.getPlaylistId();
@@ -73,23 +74,10 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
             stmt.setInt(2, selectedSongID);
             stmt.setInt(3, songRank);
 
-            // Run the specified SQL statement
+            // Run the SQL statement
             stmt.executeUpdate();
 
-            // Get the generated ID from the DB
-            /*ResultSet rs = stmt.getGeneratedKeys();
-            int id = 0;*/
 
-
-            /*if (rs.next()) {
-                id = rs.getInt(1);
-            }*/
-
-            // Create song object and send up the layers
-            //String title = song.getTitle();
-
-            //Song songInPlaylist = new Song(id, title, song.getArtist(), song.getSongFile());
-            //return songInPlaylist;
         }
         catch (Exception ex)
         {
@@ -101,11 +89,16 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
     public int getRank(int songID, int playlistID){
         int rank = 0;
 
+        //Create an SQL command
         String sql = "SELECT * FROM SongsInPlaylist SIP WHERE SIP.SongID =" + songID + " AND " + "SIP.PlaylistID=" + playlistID + ";";
 
+        //Get connection to database
         try(Connection connection = dbConnector.getConnection()) {
+
+            //Create a statement
             Statement stmt = connection.createStatement();
 
+            //Run the SQL statement
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()){
@@ -122,15 +115,19 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
 
     public void deleteSongFromPlaylist(AllPlaylists selectedPlaylist, Song selectedSong, int selectedRank) throws Exception {
 
+        //Create an SQL command
         String sql = "DELETE FROM SongsInPlaylist WHERE SongsInPlaylist.SongID = (?) AND SongsInPlaylist.PlaylistID = (?) and SongsInPlaylist.Rank = (?);";
+        //Get connection to database
         try (Connection conn = dbConnector.getConnection()) {
 
+            //Create a statement
             PreparedStatement stmt = conn.prepareStatement(sql);
 
+            //Bind parameters
             stmt.setInt(1, selectedSong.getId());
             stmt.setInt(2, selectedPlaylist.getPlaylistId());
             stmt.setInt(3, selectedRank);
-
+            //Run the SQL statement
             stmt.executeUpdate();
         }
         catch (SQLException ex) {

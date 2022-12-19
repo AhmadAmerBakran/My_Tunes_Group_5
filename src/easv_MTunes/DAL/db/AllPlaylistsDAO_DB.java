@@ -12,15 +12,19 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
     private DBConnector dbConnector;
 
+    /**
+     * Creates new dbConnector to be able to use the methods from the DBConnector class
+     */
     public AllPlaylistsDAO_DB() {
         dbConnector = new DBConnector();
     }
 
+
     @Override
     public List<AllPlaylists> getAllPlaylists() throws SQLServerException {
-
+        //Creates arraylist called playlists
         List<AllPlaylists> playLists = new ArrayList<>();
-//Create an SQL command
+        //Create an SQL command
         String sql = "SELECT * FROM AllPlaylists;";
         //Get connection to database
         try (Connection connection = dbConnector.getConnection())
@@ -28,20 +32,21 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
 
 
-            //Create some statements
+            //Create a statements
             Statement statement = connection.createStatement();
 
-            //Do what you suppose to do
+            //Executes SQL command
             if(statement.execute(sql))
             {
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {
+                    //Gets the id's, names and songs and makes them into strings
                     int playlistId = resultSet.getInt("Id");
                     String playlistName = resultSet.getString("Name");
                     int playlistSongsNumber = resultSet.getInt("Songs");
 
-
+                    //Adds values from database to playlists (Arraylist)
                     AllPlaylists allPlaylists = new AllPlaylists(playlistId, playlistName, playlistSongsNumber);
                     playLists.add(allPlaylists);
                 }
@@ -50,44 +55,28 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
         }
         return playLists;
     }
-
     @Override
     public AllPlaylists createPlaylist(String name) throws Exception {
+       //Creates an SQL command
         String sql = "INSERT INTO AllPlaylists (Name) VALUES (?);";
 
-        /**String sql2 = "CREATE TABLE [dbo].[" + name + "] (\n" +
-                "     \n" +
-                "    [Id]  INT IDENTITY(1, 1) NOT NULL,\n" +
-                "    [Title]  NVARCHAR (MAX) NOT NULL,\n" +
-                "    [Artist]  NVARCHAR (MAX) ,\n" +
-                "    [Path]   NVARCHAR (MAX) NOT NULL,\n" +
-                "    " +
-                ");";*/
-
+        //Get connection to the database
         try (Connection connection = dbConnector.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            //PreparedStatement stmt2 = connection.prepareStatement(sql2);
-
-
 
             // Bind parameters
             stmt.setString(1,name);
 
-
-
-            // Run the specified SQL statement
+            // Run the SQL statement
             stmt.executeUpdate();
-            //stmt2.executeUpdate();
 
             // Get the generated ID from the DB
             ResultSet rs = stmt.getGeneratedKeys();
             int id = 0;
             int songsNumber = 0;
 
-
             if (rs.next()) {
                 id = rs.getInt(1);
-                //songsNumber = rs.getInt("Songs");
 
             }
             // Create song object and send up the layers
@@ -103,21 +92,20 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
     @Override
     public void deletePlaylist(AllPlaylists deletedPlaylist) throws Exception {
+        //Creates an SQL command
         String sql = "DELETE FROM AllPlaylists WHERE Name = (?) AND Id = (?);";
-        //String sql1 = "DROP TABLE [" + deletedPlaylist.getPlaylistName() + "];";
 
+        //Get connection to database
         try (Connection conn = dbConnector.getConnection()) {
-
             PreparedStatement stmt = conn.prepareStatement(sql);
-            //PreparedStatement stmt1 = conn.prepareStatement(sql1);
 
             // Bind parameters
             stmt.setString(1, deletedPlaylist.getPlaylistName());
             stmt.setInt(2, deletedPlaylist.getPlaylistId());
 
-
+            //Run the SQL statement
             stmt.executeUpdate();
-            //stmt1.executeUpdate();
+
 
         }
         catch (SQLException ex) {
@@ -131,16 +119,20 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
 
     @Override
     public void updatePlaylist(AllPlaylists updatedPlaylist) throws Exception {
+        //Get connection to database
         try (Connection connection = dbConnector.getConnection()) {
 
+            //Create an SQL command
             String sql = "UPDATE AllPlaylists SET Name = ? WHERE Id = ?";
 
+            // Creates a statement
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             // Bind parameters
             stmt.setString(1, updatedPlaylist.getPlaylistName());
             stmt.setInt(2, updatedPlaylist.getPlaylistId());
 
+            // Run the SQL statement
             stmt.executeUpdate();
         }
         catch (SQLException ex) {
