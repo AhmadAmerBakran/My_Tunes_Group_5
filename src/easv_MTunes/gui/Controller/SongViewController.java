@@ -41,7 +41,7 @@ import java.util.concurrent.Callable;
 public class SongViewController extends ControllerManager implements Initializable {
 
     public TableColumn <Song, String>cSongTitle;
-    public TableColumn <Song, Integer>cSongId;
+    public TableColumn <Song, Integer>cSongsNumber;
     @FXML
     public TableView <Song> sipListTable;
     public TableColumn<AllPlaylists, Integer> cPListsId;
@@ -175,6 +175,22 @@ public class SongViewController extends ControllerManager implements Initializab
             //Sets the mediaPlayer to the selected song
             media = new Media (songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
+        });
+
+        // Set the cell factory for the row number column
+        cSongsNumber.setCellFactory(column -> {
+            return new TableCell<Song, Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        // Set the text to the row number
+                        setText(String.valueOf(getIndex() + 1));
+                    }
+                }
+            };
         });
 
     }
