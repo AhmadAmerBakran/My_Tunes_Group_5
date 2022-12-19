@@ -123,7 +123,8 @@ public class SongViewController extends ControllerManager implements Initializab
         //When a playlist is selected in the pListsTable, show the songs that are in the playlist in the sipListTable
         pListsTable.setOnMouseClicked(event -> {
             AllPlaylists selectedPlaylist = pListsTable.getSelectionModel().getSelectedItem();
-            playlistNumber = selectedPlaylist.getPlaylistId();
+            if(selectedPlaylist!=null){
+            playlistNumber = selectedPlaylist.getPlaylistId();}
 
             try{
                 songsInPlaylistModel.showList(playlistNumber);
@@ -148,10 +149,11 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
             Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
+            if(selectedSongInPlaylist!=null){
             songNumber = songsInPlaylistModel.getObservableSongs().indexOf(selectedSongInPlaylist);
             //Sets the mediaPlayer to the selected song
             media = new Media(songsInPlaylistModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer = new MediaPlayer(media);}
         });
 
         //This is used to let the mediaPlayer know that a song in the songTable is selected so that it can play that song.
@@ -169,10 +171,11 @@ public class SongViewController extends ControllerManager implements Initializab
             songInPlaylistSelected = false;
 
             Song selectedSongInSonglist = songTable.getSelectionModel().getSelectedItem();
+            if(selectedSongInSonglist!=null){
             songNumber = songModel.getObservableSongs().indexOf(selectedSongInSonglist);
             //Sets the mediaPlayer to the selected song
             media = new Media (songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer = new MediaPlayer(media);}
         });
 
         // Set the cell factory for the row number column
