@@ -16,7 +16,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 //SongCrud is a controller used to control the SongCrud window.

@@ -1,7 +1,6 @@
 package easv_MTunes.gui.Model;
 
 import easv_MTunes.BE.AllPlaylists;
-import easv_MTunes.BE.Song;
 import easv_MTunes.BLL.AllPlaylistsManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

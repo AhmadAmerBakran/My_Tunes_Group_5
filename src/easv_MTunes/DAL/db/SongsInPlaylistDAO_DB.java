@@ -1,16 +1,13 @@
 package easv_MTunes.DAL.db;
 
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import easv_MTunes.BE.AllPlaylists;
 import easv_MTunes.BE.Song;
 import easv_MTunes.DAL.ISongsInPlaylistDataAccess;
 
-
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
