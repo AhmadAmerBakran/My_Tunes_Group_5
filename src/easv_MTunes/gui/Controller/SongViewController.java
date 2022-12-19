@@ -334,6 +334,7 @@ public class SongViewController extends ControllerManager implements Initializab
                 slideTime.setMax(mediaPlayer.getTotalDuration().toSeconds());
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 slideTime.setValue(current);
+                autoPlayNextSong();
             }
         };
         timer.scheduleAtFixedRate(task, 0, 1000);
@@ -402,6 +403,7 @@ public class SongViewController extends ControllerManager implements Initializab
     //playFunktions helps with playing the song by setting the volume and changes the playedSong text field to the current song playing
     private void playFunctions()
     {
+        //autoPlayNextSong();
         bindCurrentTimeLabel();
         bindTotalTimeLabel();
         if(!muteClicked)
@@ -412,10 +414,10 @@ public class SongViewController extends ControllerManager implements Initializab
             mediaPlayer.setVolume(slideVolume.getValue() * 0.01);
         }
         getCurrentTimeSlider();
-        if (songInSonglistSelected == true){
+        if (songInSonglistSelected){
             playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
         }
-        if (songInPlaylistSelected==true){
+        if (songInPlaylistSelected){
         Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
         if (selectedSongInPlaylist != null){
             playedSong.setText(songsInPlaylistModel.getObservableSongs().get(songNumber).toString().substring(7));
@@ -424,6 +426,51 @@ public class SongViewController extends ControllerManager implements Initializab
 
 
     }
+    public void autoPlayNextSong() {
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                // Increment the songNumber variable to move to the next song
+                songNumber++;
+                // Check if the songNumber is within the bounds of the list of songs
+                if(songInPlaylistSelected) {
+                    if (songNumber >= songsInPlaylistModel.getObservableSongs().size()) {
+                        songNumber = 0;
+                    }
+                    // Set the mediaPlayer to the next song
+                    media = new Media(songsInPlaylistModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.play();
+                } else if (songInSonglistSelected) {
+                    if (songNumber >= songModel.getObservableSongs().size()) {
+                        songNumber = 0;
+                    }
+                    media = new Media(songModel.getObservableSongs().get(songNumber).getSongFile().toURI().toString());
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.play();
+                }
+
+                bindCurrentTimeLabel();
+                bindTotalTimeLabel();
+                if(!muteClicked) {
+                    mediaPlayer.setVolume(0);
+                } else {
+                    mediaPlayer.setVolume(slideVolume.getValue() * 0.01);
+                }
+                getCurrentTimeSlider();
+                if (songInSonglistSelected) {
+                    playedSong.setText(songModel.getObservableSongs().get(songNumber).toString().substring(7));
+                }
+                if (songInPlaylistSelected) {
+                    Song selectedSongInPlaylist = sipListTable.getSelectionModel().getSelectedItem();
+                    if (selectedSongInPlaylist != null) {
+                        playedSong.setText(songsInPlaylistModel.getObservableSongs().get(songNumber).toString().substring(7));
+                    }
+                }
+            }
+        });
+    }
+
 
     //volumeSlider is a method that uses a slider to change the volume of the current song that is playing.
     private void volumeSlider()
