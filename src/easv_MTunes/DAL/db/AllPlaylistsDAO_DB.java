@@ -44,7 +44,6 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
                     //Gets the id's, names and songs and makes them into strings
                     int playlistId = resultSet.getInt("Id");
                     String playlistName = resultSet.getString("Name");
-                    //int playlistSongsNumber = resultSet.getInt("Songs");
 
                     //Adds values from database to playlists (Arraylist)
                     AllPlaylists allPlaylists = new AllPlaylists(playlistId, playlistName);

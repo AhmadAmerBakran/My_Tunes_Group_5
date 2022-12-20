@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 public class SongsInPlaylistModel {
     private ObservableList<Song> songsToBeViewed;
     private SongsInPlaylistManager songsInPlaylistManager;
-    private AllPlaylists selectedPlaylist;
     public SongsInPlaylistModel() throws Exception {
         songsInPlaylistManager = new SongsInPlaylistManager();
         songsToBeViewed = FXCollections.observableArrayList();
@@ -17,15 +16,6 @@ public class SongsInPlaylistModel {
 
         songsToBeViewed.addAll(songsInPlaylistManager.getAllPlaylistSongs(0));
     }
-
-    /**
-     * Getter for selected playlist
-     */
-    public AllPlaylists getSelectedPlaylist()
-    {
-        return selectedPlaylist;
-    }
-
 
     /**
      *

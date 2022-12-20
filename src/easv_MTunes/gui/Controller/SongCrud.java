@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 //SongCrud is a controller used to control the SongCrud window.
 public class SongCrud extends ControllerManager implements Initializable{
     @FXML
-    private TextField txtCategory, txtTime, txtArtist, txtFile, txtTitle;
+    private TextField txtArtist, txtFile, txtTitle;
 
     private File file;
 

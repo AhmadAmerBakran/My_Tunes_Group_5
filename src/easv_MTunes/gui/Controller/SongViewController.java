@@ -43,13 +43,9 @@ public class SongViewController extends ControllerManager implements Initializab
     public TableView <Song> sipListTable;
     public TableColumn<AllPlaylists, Integer> cPListsId;
     @FXML
-    private TableColumn<AllPlaylists, Integer> cPListsSongs;
-    @FXML
     private TableColumn<AllPlaylists, String> cPListsName;
     @FXML
     private TableView<AllPlaylists> pListsTable;
-    @FXML
-    private TableColumn<Song, Integer> cTime;
     @FXML
     private TableColumn<Song, String> cArtist;
     @FXML
@@ -62,8 +58,6 @@ public class SongViewController extends ControllerManager implements Initializab
     private ImageView imgPlay;
     @FXML
     private ImageView soundOn;
-    @FXML
-    private Button btnVolume;
     @FXML
     Button btnPlay;
     @FXML
@@ -405,7 +399,6 @@ public class SongViewController extends ControllerManager implements Initializab
     //playFunktions helps with playing the song by setting the volume and changes the playedSong text field to the current song playing
     private void playFunctions()
     {
-        //autoPlayNextSong();
         bindCurrentTimeLabel();
         bindTotalTimeLabel();
         if(!muteClicked)

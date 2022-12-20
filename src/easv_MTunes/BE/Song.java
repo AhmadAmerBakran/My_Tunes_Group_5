@@ -15,10 +15,6 @@ public class Song {
         this.artist = artist;
 
     }
-    /*public  Song(int id, String title){
-        this.id = id;
-        this.title = title;
-    }*/
 
     /**
      * Getter for artist of the song
