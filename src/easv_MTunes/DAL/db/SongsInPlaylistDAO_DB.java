@@ -104,7 +104,6 @@ public class SongsInPlaylistDAO_DB implements ISongsInPlaylistDataAccess {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(songID);
         return rank;
 
 
