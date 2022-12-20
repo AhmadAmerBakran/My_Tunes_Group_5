@@ -341,9 +341,8 @@
       </Button>
       <TableView fx:id="songTable" layoutX="640.0" layoutY="170.0" prefHeight="350.0" prefWidth="450.0">
          <columns>
-            <TableColumn fx:id="cTitle" prefWidth="200.0" text="Title" />
-            <TableColumn fx:id="cArtist" prefWidth="160.0" text="Artist" />
-            <TableColumn fx:id="cTime" minWidth="0.0" prefWidth="90.0" text="Time" />
+            <TableColumn fx:id="cTitle" prefWidth="225.0" text="Title" />
+            <TableColumn fx:id="cArtist" prefWidth="225.0" text="Artist" />
          </columns>
       </TableView>
       <TableView fx:id="sipListTable" layoutX="10.0" layoutY="170.0" prefHeight="350.0" prefWidth="260.0">
@@ -354,10 +353,8 @@
       </TableView>
       <TableView fx:id="pListsTable" layoutX="298.0" layoutY="170.0" prefHeight="350.0" prefWidth="300.0">
          <columns>
-            <TableColumn fx:id="cPListsName" prefWidth="86.0" text="Name" />
-            <TableColumn fx:id="cPListsSongs" prefWidth="76.0" text="Songs" />
-            <TableColumn fx:id="cPListsTime" prefWidth="68.0" text="Time" />
-            <TableColumn fx:id="cPListsId" prefWidth="69.0" text="ID" />
+            <TableColumn fx:id="cPListsName" prefWidth="200.0" text="Name" />
+            <TableColumn fx:id="cPListsId" prefWidth="100.0" text="ID" />
          </columns>
       </TableView>
    </children>

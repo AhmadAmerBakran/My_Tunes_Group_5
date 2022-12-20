@@ -4,15 +4,11 @@ package easv_MTunes.BE;
 public class AllPlaylists {
     private String playlistName;
     private int playlistId;
-
-    private int playlistSongsNumber;
     private AllPlaylists playlist;
 
-    public AllPlaylists(int playlistId, String playlistName, int playlistSongsNumber) {
+    public AllPlaylists(int playlistId, String playlistName) {
 
         this.playlistName = playlistName;
-        //playlistSongsNumber = playlist.getPlaylistSongs().size();
-        this.playlistSongsNumber = playlistSongsNumber;
         this.playlistId = playlistId;
 
     }
@@ -38,12 +34,7 @@ public class AllPlaylists {
         return playlistId;
     }
 
-    /**
-     * Getter for the numbers of the songs in the playlists
-     */
-    public int getPlaylistSongsNumber() {
-        return playlistSongsNumber;
-    }
+
 
     /**
      * Getter for the Playlists
@@ -61,7 +52,7 @@ public class AllPlaylists {
         return "AllPlaylists{" +
                 "playlistName='" + playlistName + '\'' +
                 ", playlistId=" + playlistId +
-                ", playlistSongsNumber=" + playlistSongsNumber +
+                ", playlistSongsNumber=" +
                 ", playlist=" + playlist +
                 '}';
     }

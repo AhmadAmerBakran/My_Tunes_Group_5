@@ -242,7 +242,6 @@ public class SongViewController extends ControllerManager implements Initializab
 
         pListsTable.setItems(allPlaylistsModel.getObservableAllPlaylists());
         cPListsName.setCellValueFactory(new PropertyValueFactory<AllPlaylists, String>("playlistName"));
-        cPListsSongs.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistSongsNumber"));
         cPListsId.setCellValueFactory(new PropertyValueFactory<AllPlaylists, Integer>("playlistId"));
 
         sipListTable.setItems(songsInPlaylistModel.getObservableSongs());

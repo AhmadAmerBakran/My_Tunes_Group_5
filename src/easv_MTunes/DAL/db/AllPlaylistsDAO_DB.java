@@ -44,10 +44,10 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
                     //Gets the id's, names and songs and makes them into strings
                     int playlistId = resultSet.getInt("Id");
                     String playlistName = resultSet.getString("Name");
-                    int playlistSongsNumber = resultSet.getInt("Songs");
+                    //int playlistSongsNumber = resultSet.getInt("Songs");
 
                     //Adds values from database to playlists (Arraylist)
-                    AllPlaylists allPlaylists = new AllPlaylists(playlistId, playlistName, playlistSongsNumber);
+                    AllPlaylists allPlaylists = new AllPlaylists(playlistId, playlistName);
                     playLists.add(allPlaylists);
                 }
             }
@@ -73,14 +73,14 @@ public class AllPlaylistsDAO_DB implements IAllPlaylistsDataAccess {
             // Get the generated ID from the DB
             ResultSet rs = stmt.getGeneratedKeys();
             int id = 0;
-            int songsNumber = 0;
+
 
             if (rs.next()) {
                 id = rs.getInt(1);
 
             }
             // Create song object and send up the layers
-            AllPlaylists allPlaylists = new AllPlaylists(id,name, songsNumber);
+            AllPlaylists allPlaylists = new AllPlaylists(id,name);
             return allPlaylists;
         }
         catch (SQLException ex)

@@ -38,7 +38,7 @@ public class PlaylistsView extends ControllerManager {
         //Gets the text from the text field and sets the variable to it
         String updatedPlaylistName = txtPlaylistName.getText();
         //Sets the updatedPlaylist variable to the selected playlist
-        AllPlaylists updatedPlaylist = new AllPlaylists(allPlaylistsModel.getSelectedPlaylist().getPlaylistId(), updatedPlaylistName, allPlaylistsModel.getSelectedPlaylist().getPlaylistSongsNumber());
+        AllPlaylists updatedPlaylist = new AllPlaylists(allPlaylistsModel.getSelectedPlaylist().getPlaylistId(), updatedPlaylistName);
         //Calls a method from another class
         allPlaylistsModel.updatePlaylist(updatedPlaylist);
 
